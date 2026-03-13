@@ -1,0 +1,11 @@
+export enum ORDER_STATUS {
+    INPROCESS = 'INPROCESS',
+    ACCEPETED = 'ACCEPETED',
+    REJECTED = 'REJECTED',
+}
+
+export enum ORDER_STAGE {
+    ONBOARD = 'INPROCESS',
+    INWAY = 'INWAY',
+    DELIVERED = 'DELIVERED',
+}
