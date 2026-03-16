@@ -47,4 +47,22 @@ export class UserRepository extends Repository<UserEntity> {
         });
         return user;
     }
+
+    async findByEmailAndRole(email: string, role: Role) {
+        const user = await this.find({
+            where: {
+                email: email,
+                role: role,
+                is_active: true
+            },
+            select: {
+                email: true,
+                username: true,
+                uuid: true,
+                password: true,
+                role: true
+            }
+        });
+        return user;
+    }
 }

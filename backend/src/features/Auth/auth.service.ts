@@ -41,10 +41,10 @@ export class AuthService {
 
     async loginUser(body: LoginDto) {
         try {
-            //check if already exists using this email
-            const isUserExists = await this.userRepo.findByEmail(body.email);
+            //check if already exists using this email and role
+            const isUserExists = await this.userRepo.findByEmailAndRole(body.email, body.role);
             if (!isUserExists.length) {
-                throw new BadRequestException('User not Exists with this Email');
+                throw new BadRequestException('User not Exists with this Email And Role');
             }
 
             const isValid = await this.bcryptService.verifyPassword(body.password, isUserExists[0].password);
