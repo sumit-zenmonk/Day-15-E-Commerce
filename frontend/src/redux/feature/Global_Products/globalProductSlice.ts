@@ -26,7 +26,11 @@ const globalProductSlice = createSlice({
             })
             .addCase(fetchGlobalProducts.fulfilled, (state, action: PayloadAction<Product[]>) => {
                 state.loading = false;
-                state.products = [...state.products, ...action.payload];
+                const newProducts = action.payload.filter(
+                    (newProduct) =>
+                        !state.products.some((existing) => existing.uuid === newProduct.uuid)
+                );
+                state.products = [...state.products, ...newProducts];
             })
             .addCase(fetchGlobalProducts.rejected, (state, action) => {
                 state.loading = false;

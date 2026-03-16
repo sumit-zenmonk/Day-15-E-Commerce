@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { RootState } from "@/redux/store";
 import { fetchGlobalProducts } from "@/redux/feature/Global_Products/globalProductAction";
 import { Product } from "@/redux/feature/Global_Products/globalProductType";
-import LogoutComp from "@/component/logot-comp/logout";
+import HeaderComp from "@/component/header-comp/header-comp";
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
@@ -29,7 +29,8 @@ export default function HomePage() {
   const fetchMoreProducts = async () => {
     try {
       const result: Product[] = await dispatch(fetchGlobalProducts({ limit, offset })).unwrap();
-      setOffset(offset + limit);
+
+      setOffset((prev) => prev + limit);
 
       if (result.length < limit) {
         setHasMore(false);
@@ -48,10 +49,11 @@ export default function HomePage() {
 
   return (
     <Box className={styles.container}>
+      <HeaderComp />
+
       <Typography variant="h4" className={styles.title}>
         Product Listing
       </Typography>
-      <LogoutComp />
 
       {error && (
         <Typography color="error" className={styles.error}>

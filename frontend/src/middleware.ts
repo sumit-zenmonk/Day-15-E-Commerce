@@ -30,7 +30,6 @@ export default function middleware(req: NextRequest) {
     }
 
     if (isAuthenticated) {
-        console.log('hye ', role, matchesRoute(adminRoutes), matchesRoute(sellerRoutes), matchesRoute(userRoutes), pathname);
         if (matchesRoute(adminRoutes) && role !== Role.ADMIN) {
             return NextResponse.redirect(new URL("/", req.url));
         }
