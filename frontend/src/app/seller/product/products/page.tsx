@@ -12,11 +12,13 @@ import { SellerProductType } from "@/redux/feature/Seller/sellerType";
 import { ProductType } from "@/redux/feature/Global_Products/globalProductType";
 import { DeleteProductSx } from "./products.styles";
 import { filterProducts } from "@/redux/feature/Global_Products/globalProductSlice";
+import { useRouter } from "next/navigation";
 
 export default function SellerProductsPage() {
     const dispatch = useAppDispatch();
     const [isMounted, setIsMounted] = useState(false);
     const { products, error, loading } = useAppSelector((state: RootState) => state.SellerReducer);
+    const router = useRouter();
 
     const [limit] = useState(10);
     const [offset, setOffset] = useState(0);
@@ -56,13 +58,17 @@ export default function SellerProductsPage() {
         }
     };
 
+    const handleUpdate = (id: string) => {
+        router.push(`/seller/product/update?uid=${id}`);
+    };
+
     if (!isMounted) return null;
 
     return (
         <Box className={styles.container}>
-            <Typography variant="h4" className={styles.title}>
+            {/* <Typography variant="h4" className={styles.title}>
                 Your Product Listing
-            </Typography>
+            </Typography> */}
 
             <InfiniteScroll
                 dataLength={products.length}
@@ -81,13 +87,24 @@ export default function SellerProductsPage() {
                                 <Typography color={product.is_admin_approved ? "green" : "orange"}>
                                     {product.is_admin_approved ? "Approved" : "Pending Approval"}
                                 </Typography>
-                                <Button
-                                    disabled={loading}
-                                    sx={DeleteProductSx}
-                                    onClick={() => handleDelete(product.uuid)}
-                                >
-                                    Delete Product
-                                </Button>
+                                <Box className={styles.actions}>
+                                    <Button
+                                        className={styles.deleteBtn}
+                                        disabled={loading}
+                                        sx={DeleteProductSx}
+                                        onClick={() => handleDelete(product.uuid)}
+                                    >
+                                        Delete
+                                    </Button>
+
+                                    <Button
+                                        className={styles.editBtn}
+                                        disabled={loading}
+                                        onClick={() => handleUpdate(product.uuid)}
+                                    >
+                                        Edit
+                                    </Button>
+                                </Box>
                             </Box>
                         </Card>
                     ))}

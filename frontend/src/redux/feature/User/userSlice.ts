@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserCommerceState } from "./userType";
-import { addToCart, fetchCart, removeFromCart, updateCart } from "./userAction";
+import { addToCart, createOrder, fetchCart, fetchOrder, removeFromCart, updateCart } from "./userAction";
 
 const initialState: UserCommerceState = {
     cart: [],
@@ -37,7 +37,6 @@ const userSlice = createSlice({
                 } else {
                     state.cart.push(cartProduct);
                 }
-                console.log('added', cartProduct);
                 state.loading = false;
                 state.message = message;
             })
@@ -74,7 +73,6 @@ const userSlice = createSlice({
             })
             .addCase(updateCart.fulfilled, (state, action) => {
                 const { cartProduct, message } = action.payload;
-                console.log(action.payload);
                 const index = state.cart.findIndex(
                     item => item.uuid === cartProduct.uuid
                 );
@@ -85,6 +83,30 @@ const userSlice = createSlice({
                 state.message = message;
             })
             .addCase(updateCart.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+            .addCase(createOrder.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(createOrder.fulfilled, (state, action) => {
+                state.loading = false;
+                state.cart = [];
+                state.message = action.payload.message;
+            })
+            .addCase(createOrder.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+            .addCase(fetchOrder.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchOrder.fulfilled, (state, action) => {
+                state.loading = false;
+                state.orders = action.payload.data;
+                state.message = action.payload.message;
+            })
+            .addCase(fetchOrder.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             })

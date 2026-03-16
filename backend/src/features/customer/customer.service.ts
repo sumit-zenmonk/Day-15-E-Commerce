@@ -97,9 +97,8 @@ export class CustomerService {
                 order_id: order.uuid,
                 product_id: cart.product_id,
                 quantity: cart.quantity,
-                price: 0
+                price: cart.product.price
             }));
-
             await this.orderItemRepo.createOrderItems(orderItems);
             await this.cartRepo.deactivateCarts(cart_ids, user.uuid);
 

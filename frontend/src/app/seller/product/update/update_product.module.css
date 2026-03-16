@@ -1,0 +1,52 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2% 0;
+}
+
+.card {
+    width: 90%;
+    max-width: 600px;
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5%;
+}
+
+.input {
+    width: 100%;
+    padding: 1% 1.5%;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5%;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 1% 0;
+    margin-top: 2%;
+}
+
+.uploadedText {
+    font-size: 0.8rem;
+    color: green;
+    margin-top: 0.5%;
+}

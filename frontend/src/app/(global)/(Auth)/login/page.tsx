@@ -36,11 +36,11 @@ export default function LoginForm() {
         formState: { errors }
     } = useForm<LoginSchemaType>({
         resolver: zodResolver(loginSchema),
-        defaultValues: {
-            role: RoleEnum.USER
-        }
+        // defaultValues: {
+        //     role: RoleEnum.USER
+        // }
     })
-    const role = watch("role")
+    // const role = watch("role")
 
     const onSubmit = async (data: LoginSchemaType) => {
         try {
@@ -60,7 +60,7 @@ export default function LoginForm() {
                 </Typography>
 
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                    <Box className={styles.field}>
+                    {/* <Box className={styles.field}>
                         <InputLabel sx={{ color: "white", fontSize: ".8rem" }}>
                             Select Role
                         </InputLabel>
@@ -76,7 +76,7 @@ export default function LoginForm() {
                             <ToggleButton value={RoleEnum.USER}>User</ToggleButton>
                             <ToggleButton value={RoleEnum.SELLER}>Seller</ToggleButton>
                         </ToggleButtonGroup>
-                    </Box>
+                    </Box> */}
 
                     <Box className={styles.field}>
                         <InputLabel >

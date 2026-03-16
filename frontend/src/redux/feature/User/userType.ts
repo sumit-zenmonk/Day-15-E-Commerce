@@ -8,6 +8,7 @@ export interface ProductType {
     price: number;
     product_img: string;
     product_name: string;
+    uuid: string;
 }
 
 export interface CartItemType {
@@ -28,11 +29,21 @@ export interface OrderProductType {
     quantity: number;
 }
 
+export interface OrderItemType {
+    uuid: string;
+    price: number;
+    quantity: number;
+    product: ProductType;
+}
+
 export interface OrderType {
     uuid: string;
-    products: OrderProductType[];
     total_price: number;
-    status: string;
+    address: string;
+    order_status: string;
+    order_stage: string;
+    items: OrderItemType[];
+    created_at: string;
 }
 
 export interface UserCommerceState {

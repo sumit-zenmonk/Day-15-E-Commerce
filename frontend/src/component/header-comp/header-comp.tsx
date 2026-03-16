@@ -80,7 +80,7 @@ export default function HeaderComp() {
                                 key="add"
                                 sx={menuItemSx}
                                 onClick={() => {
-                                    router.push('/seller/add_product');
+                                    router.push('/seller/product/add_product');
                                     handleMenuClose();
                                 }}
                             >
@@ -91,12 +91,24 @@ export default function HeaderComp() {
                             <MenuItem
                                 key="products"
                                 onClick={() => {
-                                    router.push('/seller/products');
+                                    router.push('/seller/product/products');
                                     handleMenuClose();
                                 }}
                                 sx={menuItemSx}
                             >
                                 My Products
+                            </MenuItem>
+                        ),
+                        user.role === 'SELLER' && (
+                            <MenuItem
+                                key="order"
+                                onClick={() => {
+                                    router.push('/seller/order');
+                                    handleMenuClose();
+                                }}
+                                sx={menuItemSx}
+                            >
+                                Orders
                             </MenuItem>
                         ),
                         user.role === 'USER' && (
@@ -121,6 +133,18 @@ export default function HeaderComp() {
                                 sx={menuItemSx}
                             >
                                 Cart
+                            </MenuItem>
+                        ),
+                        user.role === 'USER' && (
+                            <MenuItem
+                                key="order"
+                                onClick={() => {
+                                    router.push(' /user/order');
+                                    handleMenuClose();
+                                }}
+                                sx={menuItemSx}
+                            >
+                                Orders
                             </MenuItem>
                         ),
                         <MenuItem

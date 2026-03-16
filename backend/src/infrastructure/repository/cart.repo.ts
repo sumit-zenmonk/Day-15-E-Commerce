@@ -94,6 +94,14 @@ export class CartRepository extends Repository<CartEntity> {
                 uuid: In(cart_ids),
                 user_uuid,
                 is_active: true
+            }, relations: {
+                product: true
+            }
+            ,
+            select: {
+                product: {
+                    price: true
+                }
             }
         });
     }

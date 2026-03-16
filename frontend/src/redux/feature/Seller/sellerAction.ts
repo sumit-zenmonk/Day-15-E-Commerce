@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@/redux/store";
-import { SellerProductType } from "./sellerType";
+import { SellerProductType, UpdateSellerProductPayload } from "./sellerType";
+import { OrderType } from "./sellerType";
 
 interface FetchSellerProductsParams {
     limit?: number;
@@ -64,6 +65,75 @@ export const deleteSellerProduct = createAsyncThunk<
             }
 
             return rejectWithValue(data.message || "Failed to delete product");
+        } catch (err: any) {
+            return rejectWithValue(err.message);
+        }
+    }
+);
+
+export const updateSellerProduct = createAsyncThunk<
+    SellerProductType,
+    UpdateSellerProductPayload,
+    { state: RootState }
+>(
+    "sellerProducts/updateSellerProduct",
+    async (payload, { getState, rejectWithValue }) => {
+        try {
+            const token = getState().authReducer.token || "";
+
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/seller/product`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${token}`,
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                return rejectWithValue(data.message || "Failed to update product");
+            }
+
+            return data.data as SellerProductType;
+        } catch (err: any) {
+            return rejectWithValue(err.message);
+        }
+    }
+);
+
+export const fetchSellerOrder = createAsyncThunk<
+    { data: OrderType[]; message: string },
+    void,
+    { state: RootState }
+>(
+    "userCommerce/fetchOrder",
+    async (_, { getState, rejectWithValue }) => {
+        try {
+            const token = getState().authReducer.token || "";
+
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/seller/order`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token,
+                    },
+                }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                return rejectWithValue(data.message || "Order failed");
+            }
+
+            return data;
         } catch (err: any) {
             return rejectWithValue(err.message);
         }

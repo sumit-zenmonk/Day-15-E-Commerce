@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { deleteSellerProduct, fetchSellerProducts } from "./sellerAction";
+import { deleteSellerProduct, fetchSellerOrder, fetchSellerProducts, updateSellerProduct } from "./sellerAction";
 import { SellerProductState, SellerProductType } from "./sellerType";
 
 const initialState: SellerProductState = {
     products: [],
+    orders: [],
     loading: false,
     error: null,
 };
@@ -49,8 +50,32 @@ const sellerProductSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload as string;
             })
-
-
+            .addCase(updateSellerProduct.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(updateSellerProduct.fulfilled, (state, action) => {
+                state.loading = false;
+                const updatedProduct = action.payload;
+                const index = state.products.findIndex((p) => p.uuid === updatedProduct.uuid);
+                if (index !== -1) {
+                    state.products[index] = updatedProduct;
+                }
+            })
+            .addCase(updateSellerProduct.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+            .addCase(fetchSellerOrder.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchSellerOrder.fulfilled, (state, action) => {
+                state.loading = false;
+                state.orders = action.payload.data;
+            })
+            .addCase(fetchSellerOrder.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
     },
 });
 

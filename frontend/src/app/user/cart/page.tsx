@@ -1,26 +1,38 @@
 "use client";
 
-import { Box, Typography, Button, IconButton } from "@mui/material";
+import { Box, Typography, Button, IconButton, Modal, TextField } from "@mui/material";
 import { RootState } from "@/redux/store";
 import styles from "./cart.module.css";
 import { CartItemType } from "@/redux/feature/User/userType";
-import { removeFromCart, updateCart } from "@/redux/feature/User/userAction";
+import { createOrder, removeFromCart, updateCart } from "@/redux/feature/User/userAction";
 import { enqueueSnackbar } from "notistack";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import HeaderComp from "@/component/header-comp/header-comp";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { orderAddressSchema, OrderAddressSchemaType, orderSchema, OrderSchemaType } from "@/types/order";
 
 export default function CartPage() {
     const dispatch = useAppDispatch();
     const { cart, loading } = useAppSelector(
         (state: RootState) => state.UserCommerceReducer
     );
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors }
+    } = useForm<OrderAddressSchemaType>({
+        resolver: zodResolver(orderAddressSchema),
+    });
 
     const [isMounted, setIsMounted] = useState(false);
+    const [open, setOpen] = useState(false);
+    const address = watch("address");
 
     const totalAmount = cart.reduce(
-        (acc: any, item: any) => acc + item.product.price * item.quantity,
+        (acc: number, item: any) => acc + item.product.price * item.quantity,
         0
     );
 
@@ -40,11 +52,28 @@ export default function CartPage() {
     ) => {
         try {
             await dispatch(updateCart({ cart_id, product_id, quantity })).unwrap();
-
             enqueueSnackbar("Cart updated", { variant: "success" });
         } catch (err: any) {
-            console.log(err, cart_id, product_id, quantity);
             enqueueSnackbar(err || "Update failed", { variant: "error" });
+        }
+    };
+
+    const onSubmit = async (data: OrderAddressSchemaType) => {
+        try {
+            const cart_ids = cart.map((item) => item.uuid);
+
+            await dispatch(
+                createOrder({
+                    cart_ids,
+                    address: data.address,
+                    total_price: totalAmount,
+                })
+            ).unwrap();
+
+            enqueueSnackbar("Order placed successfully", { variant: "success" });
+            setOpen(false);
+        } catch (err: any) {
+            enqueueSnackbar(err || "Order failed", { variant: "error" });
         }
     };
 
@@ -56,8 +85,6 @@ export default function CartPage() {
 
     return (
         <Box className={styles.container}>
-            <HeaderComp />
-
             <Typography className={styles.title}>
                 My Cart ({cart.length})
             </Typography>
@@ -135,14 +162,62 @@ export default function CartPage() {
                     </Typography>
 
                     <Button
-                        variant="contained"
+                        variant="outlined"
                         className={styles.buyBtn}
                         disabled={cart.length === 0}
+                        onClick={() => setOpen(true)}
                     >
                         Checkout
                     </Button>
                 </Box>
             </Box>
+            <Modal open={open} onClose={() => setOpen(false)}>
+                <Box
+                    sx={{
+                        width: "40%",
+                        backgroundColor: "white",
+                        padding: "3%",
+                        margin: "8% auto",
+                        borderRadius: "8px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "10px"
+                    }}
+                >
+                    <Typography variant="h6">Checkout</Typography>
+
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "12px",
+                            width: "100%"
+                        }}
+                    >
+                        <TextField
+                            label="Shipping Address"
+                            fullWidth
+                            {...register("address")}
+                            error={!!errors.address}
+                            helperText={errors.address?.message}
+                        />
+
+                        <Typography>
+                            Total: ${totalAmount}
+                        </Typography>
+
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            disabled={loading}
+                            sx={{ width: "100%" }}
+                        >
+                            Place Order
+                        </Button>
+                    </form>
+                </Box>
+            </Modal>
         </Box>
     );
 }

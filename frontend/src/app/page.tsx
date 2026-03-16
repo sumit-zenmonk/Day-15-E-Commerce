@@ -34,7 +34,7 @@ export default function HomePage() {
               if (user?.role === RoleEnum.USER) {
                 router.push('/user/products');
               } else {
-                router.replace('/seller/products');
+                router.replace('/seller/product/products');
               }
             }}
           >

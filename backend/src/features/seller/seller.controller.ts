@@ -33,4 +33,9 @@ export class SellerController {
     async deleteProduct(@Body() body: ProductDeleteDto, @Req() req: Request) {
         return this.sellerService.deleteProduct(body, req.user);
     }
+
+    @Get('/order')
+    async getOrders(@Req() req: Request, @Query('offset') offset?: number, @Query('limit') limit?: number) {
+        return this.sellerService.getOrders(req.user, offset, limit);
+    }
 }

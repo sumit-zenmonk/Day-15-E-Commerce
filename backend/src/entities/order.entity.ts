@@ -11,9 +11,6 @@ export class OrderEntity {
     @Column({ type: "uuid" })
     user_uuid: string;
 
-    @Column({ type: "uuid" })
-    product_id: string;
-
     @Column({ type: "int" })
     total_price: number;
 

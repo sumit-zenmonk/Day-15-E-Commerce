@@ -16,7 +16,7 @@ export interface AuthState {
 export interface LoginPayload {
   email: string
   password: string
-  role: string
+  // role: string
 }
 
 export interface SignupPayload {

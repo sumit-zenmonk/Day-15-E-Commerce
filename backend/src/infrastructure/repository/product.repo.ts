@@ -51,7 +51,7 @@ export class ProductRepository extends Repository<ProductEntity> {
     }
 
     async updateProduct(updateData: Partial<ProductUpdateDto>, product_id: string, seller_id: string) {
-        return await this.update(
+        await this.update(
             {
                 uuid: product_id,
                 seller_uuid: seller_id
@@ -60,6 +60,21 @@ export class ProductRepository extends Repository<ProductEntity> {
                 ...updateData
             }
         );
+
+        return await this.findOne({
+            where: {
+                uuid: product_id,
+                seller_uuid: seller_id
+            },
+            select: {
+                uuid: true,
+                product_name: true,
+                product_img: true,
+                stock_quantity: true,
+                is_admin_approved: true,
+                created_at: true,
+            },
+        });
     }
 
     async deleteProduct(product_id: string, seller_id: string) {

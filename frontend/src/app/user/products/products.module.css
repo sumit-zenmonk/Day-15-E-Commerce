@@ -3,27 +3,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2% 5%;
-    box-sizing: border-box;
 }
 
 .productContainer {
     width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
 }
 
 .title {
     width: 100%;
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
+    display: flex;
+    justify-content: center;
     font-weight: 600;
+    margin-bottom: 2%;
 }
 
 .error {
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     color: red;
-    margin-bottom: 20px;
 }
 
 .loading {
@@ -31,49 +32,61 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 30px 0;
+    margin-top: 2%;
 }
 
 .endMessage {
     width: 100%;
-    text-align: center;
-    margin: 30px 0;
-    font-size: 1rem;
-    color: #777;
+    display: flex;
+    justify-content: center;
+    opacity: 0.7;
+    margin-top: 2%;
 }
 
 .productGrid {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: flex-start;
+    gap: 2%;
 }
 
 .productCard {
-    min-width: 25%;
-    max-width: 30%;
+    width: 23%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 15px 0;
-    box-sizing: border-box;
-    border-radius: 10px;
+    justify-content: space-between;
+    background: #ffffff;
+    border-radius: 2%;
+    padding: 2%;
+    border: 0.1% solid #e6e6e6;
 }
 
 .productImage {
-    width: 90%;
-    height: 200px;
+    width: 100%;
+    display: flex;
     object-fit: cover;
-    margin-bottom: 10px;
-    border-radius: 8px;
+    border-radius: 2%;
 }
 
 .productInfo {
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    font-size: 0.95rem;
+    gap: 4%;
+    margin-top: 3%;
+}
+
+.cartActions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3%;
+    margin-top: 4%;
+    flex-wrap: wrap;
+}
+
+.Addbtn {
+    width: 100%;
 }

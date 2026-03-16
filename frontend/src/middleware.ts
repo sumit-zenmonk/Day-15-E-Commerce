@@ -4,8 +4,8 @@ import { RoleEnum } from "./enums/role.enum";
 const globalPublicRoutes = ['/public'];
 const authBlockRoutes = ['/login', '/signup'];
 const adminRoutes = ['/admin'];
-const sellerRoutes = ['/seller/add_product', '/seller/products'];
-const userRoutes = ['/user/products'];
+const sellerRoutes = ['/seller/order','/seller/product/add_product', '/seller/product/products', '/seller/product/update'];
+const userRoutes = ['/user/cart', '/user/order', '/user/products'];
 
 export default function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;

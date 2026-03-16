@@ -8,7 +8,7 @@ import { enqueueSnackbar } from "notistack";
 import { useAppSelector } from "@/redux/hooks.ts";
 import { RootState } from "@/redux/store";
 import styles from "./add_product.module.css";
-import { ProductFormType } from "@/types/add_product";
+import { ProductFormType } from "@/types/seller";
 
 export default function UploadProduct() {
     const router = useRouter();

@@ -10,9 +10,8 @@ import { RootState } from "@/redux/store";
 import { fetchGlobalProducts } from "@/redux/feature/Global_Products/globalProductAction";
 import FooterComp from "@/component/footer-comp/footer";
 import { ProductType } from "@/redux/feature/Global_Products/globalProductType";
-import HeaderComp from "@/component/header-comp/header-comp";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { addToCart } from "@/redux/feature/User/userAction";
+import { addToCart, fetchCart } from "@/redux/feature/User/userAction";
 import { CartItemType } from "@/redux/feature/User/userType";
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { useRouter } from "next/navigation";
@@ -33,6 +32,10 @@ export default function UserHomePage() {
 
     useEffect(() => {
         setIsMounted(true);
+        const fetchOldCart = async () => {
+            await dispatch(fetchCart());
+        }
+        fetchOldCart();
     }, []);
 
     const fetchMoreProducts = async () => {
@@ -86,8 +89,6 @@ export default function UserHomePage() {
 
     return (
         <Box className={styles.container}>
-            <HeaderComp />
-
             <Box className={styles.productContainer}>
                 {/* <Typography variant="h4" className={styles.title}>
                     Product Listing
@@ -131,26 +132,30 @@ export default function UserHomePage() {
                                     </Typography>
                                 </Box>
                                 {!cartProducts.some((prod: CartItemType) => prod.product_id === product.uuid) ? (
-                                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
-                                        <Button
-                                            variant="outlined"
-                                            onClick={() => decreaseQty(product.uuid)}
-                                        >
-                                            -
-                                        </Button>
+                                    <Box className={styles.cartActions}>
+                                        <Box className={styles.cartActions}>
+                                            <Button
+                                                variant="outlined"
+                                                onClick={() => decreaseQty(product.uuid)}
+                                            >
+                                                -
+                                            </Button>
 
-                                        <Typography>
-                                            {quantities[product.uuid] || 1}
-                                        </Typography>
+                                            <Typography>
+                                                {quantities[product.uuid] || 1}
+                                            </Typography>
+
+                                            <Button
+                                                variant="outlined"
+                                                onClick={() => increaseQty(product.uuid)}
+                                            >
+                                                +
+                                            </Button>
+
+                                        </Box>
 
                                         <Button
-                                            variant="outlined"
-                                            onClick={() => increaseQty(product.uuid)}
-                                        >
-                                            +
-                                        </Button>
-
-                                        <Button
+                                            className={styles.Addbtn}
                                             variant="contained"
                                             startIcon={<ShoppingCartIcon />}
                                             onClick={() => handleAddtoCart(product.uuid)}
