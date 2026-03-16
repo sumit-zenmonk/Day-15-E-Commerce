@@ -18,7 +18,7 @@ import {
 
 import { loginSchema, LoginSchemaType } from "@/types/login"
 import { loginUser } from "@/redux/feature/Auth/authAction"
-import { Role } from "../role.enum"
+import { RoleEnum } from "../../../../enums/role.enum"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts"
 import { RootState } from "@/redux/store"
 import { useErrorHandler } from "@/utils/error"
@@ -37,7 +37,7 @@ export default function LoginForm() {
     } = useForm<LoginSchemaType>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
-            role: Role.USER
+            role: RoleEnum.USER
         }
     })
     const role = watch("role")
@@ -73,9 +73,9 @@ export default function LoginForm() {
                                 if (value) setValue("role", value)
                             }}
                         >
-                            <ToggleButton value={Role.USER}>User</ToggleButton>
-                            <ToggleButton value={Role.SELLER}>Seller</ToggleButton>
-                            <ToggleButton value={Role.ADMIN}>Admin</ToggleButton>
+                            <ToggleButton value={RoleEnum.USER}>User</ToggleButton>
+                            <ToggleButton value={RoleEnum.SELLER}>Seller</ToggleButton>
+                            <ToggleButton value={RoleEnum.ADMIN}>Admin</ToggleButton>
                         </ToggleButtonGroup>
                     </Box>
 

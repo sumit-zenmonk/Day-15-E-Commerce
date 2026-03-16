@@ -11,7 +11,7 @@ export default function FooterComp() {
             <Box className={styles.footerTop}>
 
                 <Box className={styles.footerColumn}>
-                    <Typography className={styles.footerTitle}>BROWSE MUSIC</Typography>
+                    <Typography className={styles.footerTitle}>BROWSE Product</Typography>
 
                     <Stack>
                         <Link href="#" underline="none" className={styles.footerLink}>Trending Songs</Link>
@@ -74,11 +74,11 @@ export default function FooterComp() {
                 </Typography>
 
                 <Typography className={styles.footerText}>
-                    © 2026 MusicWave. All rights reserved.
+                    © 2026 ProductWave. All rights reserved.
                 </Typography>
 
                 <Typography className={styles.footerText}>
-                    Made for music lovers
+                    Made for Product lovers
                 </Typography>
             </Box>
 

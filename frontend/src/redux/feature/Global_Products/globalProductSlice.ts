@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GlobalProductState, Product } from './globalProductType';
+import { GlobalProductState, ProductType } from './globalProductType';
 import { fetchGlobalProducts } from './globalProductAction';
 
 const initialState: GlobalProductState = {
@@ -17,6 +17,9 @@ const globalProductSlice = createSlice({
             state.error = null;
             state.loading = false;
         },
+        filterProducts(state, action) {
+            state.products = state.products.filter((p) => p.uuid !== action.payload);
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -24,7 +27,7 @@ const globalProductSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchGlobalProducts.fulfilled, (state, action: PayloadAction<Product[]>) => {
+            .addCase(fetchGlobalProducts.fulfilled, (state, action: PayloadAction<ProductType[]>) => {
                 state.loading = false;
                 const newProducts = action.payload.filter(
                     (newProduct) =>
@@ -35,9 +38,9 @@ const globalProductSlice = createSlice({
             .addCase(fetchGlobalProducts.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
-            });
+            })
     },
 });
 
-export const { clearProducts } = globalProductSlice.actions;
+export const { clearProducts, filterProducts } = globalProductSlice.actions;
 export default globalProductSlice.reducer;

@@ -1,4 +1,4 @@
-export interface ProductType {
+export interface SellerProductType {
     uuid: string;
     product_name: string;
     stock_quantity: number;
@@ -7,8 +7,8 @@ export interface ProductType {
     created_at: string;
 }
 
-export interface GlobalProductState {
-    products: ProductType[];
+export interface SellerProductState {
+    products: SellerProductType[];
     loading: boolean;
     error: string | null;
 }

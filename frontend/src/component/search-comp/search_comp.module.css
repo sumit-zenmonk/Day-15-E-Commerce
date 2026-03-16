@@ -9,7 +9,8 @@
     /* padding: 0 1%; */
     padding-left: 2%;
     padding-right: 2%;
-    background-color: rgb(43, 43, 43);
+    /* background-color: rgb(43, 43, 43); */
+    box-shadow: 0 0 1px 1px black;
 }
 
 .search_box:focus {

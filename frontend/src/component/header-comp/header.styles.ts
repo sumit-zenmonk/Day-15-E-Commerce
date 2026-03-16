@@ -1,6 +1,6 @@
 export const menuPaperSx = {
     width: "180px",
-    backgroundColor: "rgb(29, 29, 29)",
+    // backgroundColor: "rgb(29, 29, 29)",
     color: "rgba(255, 255, 255, 0.98)",
     fontWeight: 900,
     borderRadius: "20px",
@@ -11,7 +11,7 @@ export const menuItemSx = {
     fontWeight: 700,
     border: "2px solid transparent",
     borderRadius: "20px",
-
+    color: "rgba(0, 89, 255, 0.98)",
     "&:hover": {
         border: "2px solid white",
     },

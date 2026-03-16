@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Role } from "./app/(global)/(Auth)/role.enum";
+import { RoleEnum } from "./enums/role.enum";
 
 const globalPublicRoutes = ['/public'];
 const authBlockRoutes = ['/login', '/signup'];
 const adminRoutes = ['/admin'];
-const sellerRoutes = ['/add_product'];
+const sellerRoutes = ['/seller/add_product', '/seller/products'];
 const userRoutes = ['/dashboard'];
 
 export default function middleware(req: NextRequest) {
@@ -30,13 +30,13 @@ export default function middleware(req: NextRequest) {
     }
 
     if (isAuthenticated) {
-        if (matchesRoute(adminRoutes) && role !== Role.ADMIN) {
+        if (matchesRoute(adminRoutes) && role !== RoleEnum.ADMIN) {
             return NextResponse.redirect(new URL("/", req.url));
         }
-        if (matchesRoute(sellerRoutes) && role !== Role.SELLER) {
+        if (matchesRoute(sellerRoutes) && role !== RoleEnum.SELLER) {
             return NextResponse.redirect(new URL("/", req.url));
         }
-        if (matchesRoute(userRoutes) && role !== Role.USER) {
+        if (matchesRoute(userRoutes) && role !== RoleEnum.USER) {
             return NextResponse.redirect(new URL("/", req.url));
         }
     }

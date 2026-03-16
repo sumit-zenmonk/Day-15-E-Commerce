@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '@/redux/store';
-import { Product } from './globalProductType';
+import { ProductType } from './globalProductType';
 
 interface FetchProductsParams {
     limit?: number;
     offset?: number;
 }
 
-export const fetchGlobalProducts = createAsyncThunk<Product[], FetchProductsParams, { state: RootState }>(
+export const fetchGlobalProducts = createAsyncThunk<ProductType[], FetchProductsParams, { state: RootState }>(
     'products/fetchGlobalProducts',
     async ({ limit = 10, offset = 0 }, { getState, rejectWithValue }) => {
         try {
@@ -23,7 +23,7 @@ export const fetchGlobalProducts = createAsyncThunk<Product[], FetchProductsPara
 
             if (!res.ok) return rejectWithValue(data.message || 'Failed to fetch products');
 
-            return data.data as Product[];
+            return data.data as ProductType[];
         } catch (err: any) {
             return rejectWithValue(err.message);
         }

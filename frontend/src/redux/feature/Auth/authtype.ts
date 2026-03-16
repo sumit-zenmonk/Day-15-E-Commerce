@@ -1,4 +1,4 @@
-export interface User {
+export interface UserType {
   uid: string
   email: string
   name: string
@@ -6,7 +6,7 @@ export interface User {
 }
 
 export interface AuthState {
-  user: User | null
+  user: UserType | null
   token: string | null
   loading: boolean
   error: string | null

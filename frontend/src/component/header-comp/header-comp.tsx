@@ -5,7 +5,7 @@ import { logoutUser } from '@/redux/feature/Auth/authAction';
 import './header-comp.css'
 import { useState } from "react";
 import HomeFilledIcon from '@mui/icons-material/HomeFilled';
-import SearchMusicComp from '../search-comp/search_comp';
+import SearchProductComp from '../search-comp/search_comp';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks.ts';
@@ -48,12 +48,12 @@ export default function HeaderComp() {
                 />
             </Box>
 
-            <Box className="right-container">
-                <Box className="searchContainer" >
-                    <HomeFilledIcon fontSize='large' className='homeIcon' onClick={() => router.replace('/')} />
-                    <SearchMusicComp />
-                </Box>
+            <Box className="searchContainer" >
+                <HomeFilledIcon fontSize='large' className='homeIcon' onClick={() => router.replace('/')} />
+                <SearchProductComp />
+            </Box>
 
+            <Box className="right-container">
                 <Button
                     variant="outlined"
                     sx={menuButtonSx}
@@ -82,40 +82,42 @@ export default function HeaderComp() {
                         Home
                     </MenuItem>
 
-                    <MenuItem
-                        onClick={() => {
-                            router.push('/profile');
-                            handleMenuClose();
-                        }}
-                        sx={menuItemSx}
-                    >
-                        Profile
-                    </MenuItem>
-
-                    {user ? (
-                        <>
-                            {user ? (
-                                <MenuItem
-                                    sx={menuItemSx}
-                                    onClick={async () => {
-                                        router.push('/add_product');
-                                    }}
-                                >
-                                    Add Product
-                                </MenuItem>
-                            ) : <></>}
-
+                    {user ? [
+                        user.role === 'SELLER' && (
                             <MenuItem
-                                sx={logoutItemSx}
-                                onClick={async () => {
-                                    await handleLogOut();
+                                key="add"
+                                sx={menuItemSx}
+                                onClick={() => {
+                                    router.push('/seller/add_product');
                                     handleMenuClose();
                                 }}
                             >
-                                Log Out
+                                Add Product
                             </MenuItem>
-                        </>
-                    ) : (
+                        ),
+                        user.role === 'SELLER' && (
+                            <MenuItem
+                                key="products"
+                                onClick={() => {
+                                    router.push('/seller/products');
+                                    handleMenuClose();
+                                }}
+                                sx={menuItemSx}
+                            >
+                                My Products
+                            </MenuItem>
+                        ),
+                        <MenuItem
+                            key="logout"
+                            sx={logoutItemSx}
+                            onClick={async () => {
+                                await handleLogOut();
+                                handleMenuClose();
+                            }}
+                        >
+                            Log Out
+                        </MenuItem>
+                    ] : (
                         <MenuItem
                             onClick={() => {
                                 router.push('/login');

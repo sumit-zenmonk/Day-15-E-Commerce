@@ -5,15 +5,18 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import storage from "redux-persist/lib/storage";
 import authReducer from "../feature/Auth/authSlice";
 import globalProductsReducer from "../feature/Global_Products/globalProductSlice";
+import SellerReducer from "../feature/Seller/sellerSlice";
 
 const persistConfig = {
     key: "root",
     storage,
+    blacklisted: [globalProductsReducer]
 };
 
 const rootReducer = combineReducers({
     authReducer: authReducer,
     globalProductsReducer: globalProductsReducer,
+    SellerReducer: SellerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
