@@ -12,7 +12,7 @@ export const fetchGlobalProducts = createAsyncThunk<ProductType[], FetchProducts
     async ({ limit = 10, offset = 0 }, { getState, rejectWithValue }) => {
         try {
             const token = getState().authReducer.token || '';
-            const res = await fetch(`http://localhost:9000/products?limit=${limit}&offset=${offset}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products?limit=${limit}&offset=${offset}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `${token}`,

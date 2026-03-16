@@ -82,7 +82,6 @@ export default function UploadProduct() {
                 enqueueSnackbar("Product created successfully!", { variant: "success" });
                 reset();
                 setImageUrl(null);
-                router.push("/");
             }
         } catch (err: any) {
             enqueueSnackbar(err.message || "Error", { variant: "error" });

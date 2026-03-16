@@ -5,7 +5,7 @@ const globalPublicRoutes = ['/public'];
 const authBlockRoutes = ['/login', '/signup'];
 const adminRoutes = ['/admin'];
 const sellerRoutes = ['/seller/add_product', '/seller/products'];
-const userRoutes = ['/dashboard'];
+const userRoutes = ['/user/products'];
 
 export default function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;

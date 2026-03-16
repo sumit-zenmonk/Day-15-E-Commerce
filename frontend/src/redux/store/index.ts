@@ -6,6 +6,7 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "../feature/Auth/authSlice";
 import globalProductsReducer from "../feature/Global_Products/globalProductSlice";
 import SellerReducer from "../feature/Seller/sellerSlice";
+import UserCommerceReducer from "../feature/User/userSlice";
 
 const persistConfig = {
     key: "root",
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     authReducer: authReducer,
     globalProductsReducer: globalProductsReducer,
     SellerReducer: SellerReducer,
+    UserCommerceReducer: UserCommerceReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

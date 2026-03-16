@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks.ts';
 import { RootState } from '@/redux/store';
 import { logoutItemSx, menuButtonSx, menuItemSx, menuPaperSx } from './header.styles';
+import { clearProducts } from '@/redux/feature/Global_Products/globalProductSlice';
 
 export default function HeaderComp() {
     const pathname = usePathname();
@@ -23,6 +24,7 @@ export default function HeaderComp() {
 
     const handleLogOut = async () => {
         await dispatch(logoutUser()).unwrap();
+        dispatch(clearProducts())
         localStorage.clear();
         router.replace("/login")
     }
@@ -49,7 +51,7 @@ export default function HeaderComp() {
             </Box>
 
             <Box className="searchContainer" >
-                <HomeFilledIcon fontSize='large' className='homeIcon' onClick={() => router.replace('/')} />
+                {/* <HomeFilledIcon fontSize='large' className='homeIcon' onClick={() => router.replace('/')} /> */}
                 <SearchProductComp />
             </Box>
 
@@ -72,16 +74,6 @@ export default function HeaderComp() {
                         }
                     }}
                 >
-                    <MenuItem
-                        onClick={() => {
-                            router.push('/');
-                            handleMenuClose();
-                        }}
-                        sx={menuItemSx}
-                    >
-                        Home
-                    </MenuItem>
-
                     {user ? [
                         user.role === 'SELLER' && (
                             <MenuItem
@@ -105,6 +97,30 @@ export default function HeaderComp() {
                                 sx={menuItemSx}
                             >
                                 My Products
+                            </MenuItem>
+                        ),
+                        user.role === 'USER' && (
+                            <MenuItem
+                                key="products"
+                                onClick={() => {
+                                    router.push(' /user/products');
+                                    handleMenuClose();
+                                }}
+                                sx={menuItemSx}
+                            >
+                                Products
+                            </MenuItem>
+                        ),
+                        user.role === 'USER' && (
+                            <MenuItem
+                                key="cart"
+                                onClick={() => {
+                                    router.push(' /user/cart');
+                                    handleMenuClose();
+                                }}
+                                sx={menuItemSx}
+                            >
+                                Cart
                             </MenuItem>
                         ),
                         <MenuItem

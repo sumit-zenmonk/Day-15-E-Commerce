@@ -18,8 +18,18 @@ export class CustomerService {
 
     async addToCart(body: CartAddDto, user: UserEntity) {
         try {
-            await this.cartRepo.addCart(body, user.uuid);
+            // check isExists
+            const isActivecart = await this.cartRepo.getCartsByProductId(body.product_id, user.uuid);
+            if (isActivecart) {
+                return {
+                    cartProduct: isActivecart,
+                    message: "Already Active Cart Product"
+                }
+            }
+
+            const cartProduct = await this.cartRepo.addCart(body, user.uuid);
             return {
+                cartProduct: cartProduct,
                 message: "Product Added to Cart Success"
             }
         }
@@ -31,8 +41,9 @@ export class CustomerService {
 
     async updateCart(body: CartUpdateDto, user: UserEntity) {
         try {
-            await this.cartRepo.updateCart(body, user.uuid);
+            const cartProduct = await this.cartRepo.updateCart(body, user.uuid);
             return {
+                cartProduct: cartProduct,
                 message: "Product updated to Cart Success"
             }
         }

@@ -83,7 +83,6 @@ export default function SignupForm() {
                         >
                             <ToggleButton value={RoleEnum.USER}>User</ToggleButton>
                             <ToggleButton value={RoleEnum.SELLER}>Seller</ToggleButton>
-                            <ToggleButton value={RoleEnum.ADMIN}>Admin</ToggleButton>
                         </ToggleButtonGroup>
                     </Box>
 

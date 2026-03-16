@@ -1,75 +1,41 @@
 .container {
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5% 2%;
+    box-sizing: border-box;
+}
+
+.heroSection {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2% 5%;
-    box-sizing: border-box;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    min-height: 60vh;
 }
 
 .title {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
-    font-weight: 600;
+    width: 90%;
+    font-size: 3.5rem;
+    margin-bottom: 2%;
 }
 
-.error {
-    width: 100%;
-    text-align: center;
-    color: red;
-    margin-bottom: 20px;
+.brandText {
+    color: #1976d2;
 }
 
-.loading {
-    width: 100%;
+.description {
+    width: 70%;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 3%;
+}
+
+.buttonContainer {
     display: flex;
+    gap: 1rem;
     justify-content: center;
-    align-items: center;
-    margin: 30px 0;
-}
-
-.endMessage {
     width: 100%;
-    text-align: center;
-    margin: 30px 0;
-    font-size: 1rem;
-    color: #777;
-}
-
-.productGrid {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.productCard {
-    min-width: 40%;
-    max-width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px 0;
-    box-sizing: border-box;
-    border-radius: 10px;
-}
-
-.productImage {
-    width: 90%;
-    height: 200px;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border-radius: 8px;
-}
-
-.productInfo {
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    font-size: 0.95rem;
 }

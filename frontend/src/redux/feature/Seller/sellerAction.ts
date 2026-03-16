@@ -18,7 +18,7 @@ export const fetchSellerProducts = createAsyncThunk<
             const token = getState().authReducer.token || "";
 
             const res = await fetch(
-                `http://localhost:9000/seller/product?limit=${limit}&offset=${offset}`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/seller/product?limit=${limit}&offset=${offset}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const deleteSellerProduct = createAsyncThunk<
     async (productId, { getState, rejectWithValue }) => {
         try {
             const token = getState().authReducer.token || "";
-            const res = await fetch(`http://localhost:9000/seller/product`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/seller/product`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

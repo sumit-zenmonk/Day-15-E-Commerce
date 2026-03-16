@@ -16,7 +16,6 @@ export class SellerService {
             if (isProductALreadyExists.length > 0) {
                 throw new BadRequestException("Product with this name already exists");
             }
-            console.log('creating',isProductALreadyExists, user.uuid, body);
             await this.productRepo.addProduct(body, user.uuid);
             return {
                 message: "Product Added Success"

@@ -1,4 +1,6 @@
 .footerMain {
+    position: fixed;
+    bottom: 0;
     width: 100%;
     margin-top: .5%;
     border-top: 0.5% solid #ddd;
