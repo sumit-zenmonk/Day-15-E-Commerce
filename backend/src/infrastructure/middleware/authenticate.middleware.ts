@@ -11,26 +11,31 @@ export class AuthenticateMiddleware implements NestMiddleware {
     ) { }
 
     async use(req: Request, res: Response, next: NextFunction) {
-        // fetched token using req
-        const token = req.headers.authorization || req.headers.Authorization;
-        if (!token || Array.isArray(token)) {
-            throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }
+        try {
+            // fetched token using req
+            const token = req.headers.authorization || req.headers.Authorization;
+            if (!token || Array.isArray(token)) {
+                throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
 
-        //verify token using jwt
-        const user = await this.authHelpService.verifyJwtToken(token ?? '');
-        if (!user) {
-            throw new HttpException("invalid token found", HttpStatus.UNAUTHORIZED);
-        }
+            //verify token using jwt
+            const user = await this.authHelpService.verifyJwtToken(token ?? '');
+            if (!user) {
+                throw new HttpException("invalid token found", HttpStatus.UNAUTHORIZED);
+            }
 
-        // check account's presence in DB
-        const isExistsAndActiveUser = await this.userRepo.findByUuid(user.uuid);
-        if (!isExistsAndActiveUser.length) {
-            throw new HttpException("account not found", HttpStatus.UNAUTHORIZED);
-        }
+            // check account's presence in DB
+            const isExistsAndActiveUser = await this.userRepo.findByUuid(user.uuid);
+            if (!isExistsAndActiveUser.length) {
+                throw new HttpException("account not found", HttpStatus.UNAUTHORIZED);
+            }
 
-        req.user = isExistsAndActiveUser[0]
-        // valid request and authenticate account 
-        next();
+            req.user = isExistsAndActiveUser[0]
+            // valid request and authenticate account 
+            next();
+        } catch (error) {
+            console.error("Middleware Error:", error);
+            throw error;
+        }
     }
 }

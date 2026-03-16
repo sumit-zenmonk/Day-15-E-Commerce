@@ -1,0 +1,95 @@
+.header {
+    width: 100%;
+    height: 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5%;
+    background-color: #000;
+    backdrop-filter: blur(5px);
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
+.left-container {
+    width: 30%;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.right-container {
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2%;
+}
+
+.searchContainer {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1%;
+}
+
+.homeIcon {
+    width: 50px;
+    height: 50px;
+    background-color: #1f1f1f;
+    color: white;
+    cursor: pointer;
+    border-radius: 100px;
+    padding: 8px;
+}
+
+.optionBox {
+    width: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4%;
+}
+
+.optionlist {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.option {
+    color: #b3b3b3;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.option:hover {
+    color: #fff;
+    /* text-decoration: underline; */
+}
+
+.optionlist:first-child {
+    border-right: 1px solid #535353;
+    padding-right: 15px;
+}
+
+.header .MuiButton-root {
+    min-width: 80px;
+    padding: 8px 16px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 500px;
+    text-transform: uppercase;
+    font-weight: 700;
+}

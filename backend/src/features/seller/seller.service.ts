@@ -11,6 +11,12 @@ export class SellerService {
 
     async createProduct(body: ProductAddDto, user: UserEntity) {
         try {
+            // seller should have to make their produc verstiael
+            const isProductALreadyExists = await this.productRepo.getProductsByName(user.uuid, body.product_name);
+            if (isProductALreadyExists.length > 0) {
+                throw new BadRequestException("Product with this name already exists");
+            }
+            console.log(isProductALreadyExists, user.uuid, body);
             await this.productRepo.addProduct(body, user.uuid);
             return {
                 message: "Product Added Success"

@@ -1,0 +1,17 @@
+.search_box {
+    width: 90%;
+    display: flex;
+    color: rgb(167, 167, 167);
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 100px;
+    /* border: 2px solid white; */
+    /* padding: 0 1%; */
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: rgb(43, 43, 43);
+}
+
+.search_box:focus {
+    border: 2px solid rgb(255, 0, 0);
+}

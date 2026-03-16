@@ -15,6 +15,23 @@ export class ProductRepository extends Repository<ProductEntity> {
         return await this.save(product);
     }
 
+    async getProductsByName(seller_id: string, product_name: string) {
+        return await this.find({
+            where: {
+                seller_uuid: seller_id,
+                product_name: product_name,
+            },
+            select: {
+                uuid: true,
+                product_name: true,
+                product_img: true,
+                stock_quantity: true,
+                is_admin_approved: true,
+                created_at: true,
+            }
+        });
+    }
+
     async getProducts(seller_id: string, offset?: number, limit?: number) {
         return await this.find({
             where: {

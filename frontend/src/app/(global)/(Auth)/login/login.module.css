@@ -1,0 +1,140 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    background-color: transparent;
+    color: white;
+    padding: 4%;
+    gap: 1% 0;
+    border-radius: 100px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 6%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4%;
+    margin-top: 4%;
+    width: 100%;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4%;
+    width: 100%;
+}
+
+.error {
+    color: red;
+    font-size: 1rem;
+    margin-top: 1%;
+}
+
+.loginbutton {
+    width: 100%;
+    margin-top: 3%;
+    padding: 3%;
+    border-radius: 100px;
+    background-color: rgb(49, 235, 3);
+    color: black;
+    font-weight: 700;
+    transition: all ease .5s;
+}
+
+.loginbutton:hover {
+    transform: scale(1.1);
+    background-color: rgb(82, 255, 39);
+}
+
+.divider {
+    margin: 3% 0;
+}
+
+.anchorbutton {
+    color: white;
+    font-weight: 600;
+    border-radius: 100px;
+    box-shadow: 0 0 1px 1px rgb(0, 0, 0);
+    transition: all ease .5s;
+}
+
+.anchorbutton:hover {
+    color: rgb(217, 255, 0);
+    transform: scale(1.2);
+}
+
+.signupBox {
+    margin-top: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.noAcc {
+    color: white;
+    font-weight: 400;
+}
+
+.providerLoginBox {
+    width: 100%;
+    margin-top: 2%;
+    border-radius: 100px;
+    background-color: rgb(22, 22, 22);
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    padding: 2%;
+    text-transform: none;
+    border-color: rgb(105, 105, 105);
+    border-width: 1px;
+    transition: all ease .5s;
+}
+
+.providerLoginBox:hover {
+    transform: scale(1.05);
+    border-color: white;
+}
+
+.providerLoginBox:nth-child(1) {
+    width: 20%;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    margin-right: auto;
+}
+
+.privacyContent {
+    width: 20%;
+    text-align: center;
+    color: rgb(194, 194, 194);
+    font-size: .8em;
+    position: fixed;
+    bottom: 0;
+}

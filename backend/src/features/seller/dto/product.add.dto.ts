@@ -12,4 +12,7 @@ export class ProductAddDto {
     @IsString()
     @IsNotEmpty()
     product_img: string;
+
+    @IsNumber()
+    price: number;
 }

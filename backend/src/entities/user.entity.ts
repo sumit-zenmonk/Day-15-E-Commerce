@@ -1,5 +1,8 @@
 import { Role } from "src/enums/user";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { ProductEntity } from "./product.entity";
+import { CartEntity } from "./cart.entity";
+import { OrderEntity } from "./order.entity";
 
 @Entity('users')
 export class UserEntity {
@@ -24,6 +27,15 @@ export class UserEntity {
         default: Role.USER,
     })
     role: Role;
+
+    @OneToMany(() => ProductEntity, product => product.seller)
+    products: ProductEntity[];
+
+    @OneToMany(() => CartEntity, cart => cart.user)
+    cart: CartEntity[];
+
+    @OneToMany(() => OrderEntity, order => order.user)
+    orders: OrderEntity[];
 
     @CreateDateColumn()
     created_at: Date;

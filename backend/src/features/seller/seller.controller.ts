@@ -15,7 +15,7 @@ export class SellerController {
     constructor(private readonly sellerService: SellerService) { }
 
     @Post('/product')
-    async registerUser(@Body() body: ProductAddDto, @Req() req: Request) {
+    async createroduct(@Body() body: ProductAddDto, @Req() req: Request) {
         return this.sellerService.createProduct(body, req.user);
     }
 

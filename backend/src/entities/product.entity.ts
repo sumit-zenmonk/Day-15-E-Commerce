@@ -1,4 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { OrderItemEntity } from "./order.item.entity";
+import { CartEntity } from "./cart.entity";
+import { UserEntity } from "./user.entity";
 
 @Entity('product')
 export class ProductEntity {
@@ -17,8 +20,21 @@ export class ProductEntity {
     @Column({ type: "varchar" })
     product_img: string;
 
+    @Column({ type: "int" })
+    price: number;
+
     @Column({ type: "boolean", default: false })
     is_admin_approved: boolean;
+
+    @ManyToOne(() => UserEntity, user => user.products)
+    @JoinColumn({ name: "seller_uuid" })
+    seller: UserEntity;
+
+    @OneToMany(() => CartEntity, cart => cart.product)
+    cart: CartEntity[];
+
+    @OneToMany(() => OrderItemEntity, item => item.product)
+    order_items: OrderItemEntity[];
 
     @CreateDateColumn()
     created_at: Date;

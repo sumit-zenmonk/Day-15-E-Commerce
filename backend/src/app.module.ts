@@ -13,6 +13,7 @@ import { AuthHelperService } from './infrastructure/services/auth.service';
 import { SellerModule } from './features/seller/seller.module';
 import { GlobalModule } from './features/global/global.module';
 import { CustomerModule } from './features/customer/customer.module';
+import UploadModule from './features/upload/upload.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { CustomerModule } from './features/customer/customer.module';
     SellerModule,
     GlobalModule,
     CustomerModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService, BcryptService, UserRepository, AuthHelperService],

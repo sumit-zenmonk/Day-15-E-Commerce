@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+* {
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  transition: all ease .5s;
+  color: black;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-weight: 500;
+  font-size: 1rem;
+  /* user-select: none; */
+  overflow: scroll;
+  /* background: linear-gradient(160deg, #020617, #575757, #020617); */
+  /* background-color: rgb(15, 15, 15); */
+  padding-top: 100px;
+}
+
+button:hover,
+img:hover {
+  cursor: pointer;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  /* -webkit-box-shadow: 0 0 0 1000px white inset !important; */
+  -webkit-text-fill-color: inherit !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+
+.MuiInputBase-input,
+.MuiInputBase-label,
+.MuiInputBase-root {
+  color: rgb(0, 0, 0);
+}
+
+.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: rgb(139, 139, 139);
+  border-radius: 5px;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgb(0, 0, 0);
+}

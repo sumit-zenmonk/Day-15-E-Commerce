@@ -19,4 +19,8 @@ export class ProductUpdateDto {
     @IsString()
     @IsNotEmpty()
     product_img?: string;
+
+    @IsOptional()
+    @IsNumber()
+    price: number;
 }
