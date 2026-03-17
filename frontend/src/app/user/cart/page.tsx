@@ -56,7 +56,8 @@ export default function CartPage() {
         stock: number
     ) => {
         try {
-            if (quantity > stock) {
+            if (quantity >= stock || !stock) {
+                quantity--;
                 enqueueSnackbar("Quantity exceeds available stock", { variant: "error" });
                 return;
             }
