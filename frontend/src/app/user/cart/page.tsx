@@ -167,18 +167,29 @@ export default function CartPage() {
                     <Button onClick={() => setShowNewForm(!showNewForm)}>
                         {!showNewForm ? "Add New Address" : "Choose"}
                     </Button>
+                    {!showNewForm &&
+                        <Box>
+                            {addresses?.map((addr: any) => (
+                                <Box key={addr.uuid} className={styles.modalAddressOption}>
+                                    <input
+                                        type="radio"
+                                        checked={selectedAddress === addr.uuid}
+                                        onChange={() => setSelectedAddress(addr.uuid)}
+                                    />
+                                    <span>{formatAddress(addr)}</span>
+                                </Box>
+                            ))}
 
-                    {!showNewForm && addresses?.map((addr: any) => (
-                        <Box key={addr.uuid} className={styles.modalAddressOption}>
-                            <input
-                                type="radio"
-                                checked={selectedAddress === addr.uuid}
-                                onChange={() => setSelectedAddress(addr.uuid)}
-                            />
-                            <span>{formatAddress(addr)}</span>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                className={styles.buyBtn}
+                                onClick={handleOrder}
+                            >
+                                Place Order
+                            </Button>
                         </Box>
-                    ))}
-
+                    }
                     {showNewForm && (
                         <form onSubmit={handleSubmit(handleCreateAddress)} className={styles.modalForm}>
                             <TextField label="Street" {...register("street_address")} fullWidth />
@@ -193,15 +204,6 @@ export default function CartPage() {
                             </Button>
                         </form>
                     )}
-
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        className={styles.buyBtn}
-                        onClick={handleOrder}
-                    >
-                        Place Order
-                    </Button>
                 </Box>
             </Modal>
         </Box>

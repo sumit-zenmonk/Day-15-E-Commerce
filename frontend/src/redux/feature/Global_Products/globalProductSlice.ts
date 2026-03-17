@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GlobalProductState, ProductType } from './globalProductType';
-import { fetchGlobalProducts } from './globalProductAction';
+import { fetchGlobalProducts, updateApproveProducts } from './globalProductAction';
 
 const initialState: GlobalProductState = {
     products: [],
@@ -36,6 +36,24 @@ const globalProductSlice = createSlice({
                 state.products = [...state.products, ...newProducts];
             })
             .addCase(fetchGlobalProducts.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+            .addCase(updateApproveProducts.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(updateApproveProducts.fulfilled, (state, action) => {
+                const { product_id, approve } = action.meta.arg;
+                state.loading = false;
+                const product = state.products.find(
+                    (curr) => curr.uuid === product_id
+                );
+
+                if (product) {
+                    product.is_admin_approved = approve;
+                }
+            })
+            .addCase(updateApproveProducts.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             })

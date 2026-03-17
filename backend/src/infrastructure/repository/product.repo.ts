@@ -96,4 +96,12 @@ export class ProductRepository extends Repository<ProductEntity> {
             take: limit ?? Number(process.env.page_limit) ?? 10
         });
     }
+
+    async changeProductApprove(product_id: string, approve: boolean) {
+        return await this.update(
+            { uuid: product_id },
+            { is_admin_approved: approve }
+        );
+    }
+
 }

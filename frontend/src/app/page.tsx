@@ -26,22 +26,41 @@ export default function HomePage() {
         </Typography>
 
         <Box className={styles.buttonContainer}>
-          <Button
-            variant="contained"
-            size="large"
-            startIcon={<ShoppingCart />}
-            onClick={() => {
-              if (user?.role === RoleEnum.USER) {
-                router.push('/user/products');
-              } else {
-                router.replace('/seller/product/products');
-              }
-            }}
-          >
-            Explore Now
-          </Button>
+
+          {
+            user?.role !== RoleEnum.ADMIN
+            &&
+            < Button
+              variant="contained"
+              size="large"
+              startIcon={<ShoppingCart />}
+              onClick={() => {
+                if (user?.role === RoleEnum.USER) {
+                  router.push('/user/products');
+                } else {
+                  router.replace('/seller/product/products');
+                }
+              }}
+            >
+              Explore Now
+            </Button>
+          }
+          {
+            user?.role == RoleEnum.ADMIN
+            &&
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<ShoppingCart />}
+              onClick={() => {
+                router.replace('/admin-dashboard');
+              }}
+            >
+              Dashbaord
+            </Button>
+          }
         </Box>
       </Box>
-    </Box>
+    </Box >
   );
 }

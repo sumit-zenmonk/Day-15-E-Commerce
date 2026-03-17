@@ -3,7 +3,7 @@ import { RoleEnum } from "./enums/role.enum";
 
 const globalPublicRoutes = ['/public'];
 const authBlockRoutes = ['/login', '/signup'];
-const adminRoutes = ['/admin'];
+const adminRoutes = ['/admin-dashboard'];
 const sellerRoutes = ['/seller/order','/seller/product/add_product', '/seller/product/products', '/seller/product/update'];
 const userRoutes = ['/user/cart', '/user/order', '/user/products'];
 

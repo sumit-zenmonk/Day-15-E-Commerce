@@ -41,7 +41,7 @@ export default function HeaderComp() {
         <Box className="header">
             <Box className="left-container">
                 <Image
-                    src={'/logo.png'}
+                    src={'/flipkart.svg'}
                     className='logo'
                     alt='logo img'
                     width={40}

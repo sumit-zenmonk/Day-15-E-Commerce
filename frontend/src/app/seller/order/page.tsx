@@ -24,7 +24,7 @@ export default function SellerOrders() {
 
     if (!isMounted) return null;
 
-    if (loading) {
+    if (loading && orders.length === 0) {
         return (<CircularProgress />);
     }
 

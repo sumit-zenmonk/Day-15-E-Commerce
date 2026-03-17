@@ -14,6 +14,7 @@ import { SellerModule } from './features/seller/seller.module';
 import { GlobalModule } from './features/global/global.module';
 import { CustomerModule } from './features/customer/customer.module';
 import UploadModule from './features/upload/upload.module';
+import { AdminModule } from './features/admin/admin.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import UploadModule from './features/upload/upload.module';
     GlobalModule,
     CustomerModule,
     UploadModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService, BcryptService, UserRepository, AuthHelperService],
