@@ -1,11 +1,15 @@
 "use client";
 
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Button, Card, Typography } from "@mui/material";
 import styles from "./order.module.css";
-import { useAppSelector } from "@/redux/hooks.ts";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { RootState } from "@/redux/store";
 import { RoleEnum } from "@/enums/role.enum";
 import { OrderUserType } from "@/redux/feature/Seller/sellerType";
+import OrderStepper from "../order-stepper/order_stepper_comp";
+import { ORDER_STAGE, ORDER_STATUS } from "@/enums/order.enum";
+import { useState } from "react";
+import { updateOrderStage, updateOrderStatus } from "@/redux/feature/Seller/sellerAction";
 
 type Product = {
     product_name: string;
@@ -21,10 +25,13 @@ type Item = {
 
 type Order = {
     uuid: string;
-    order_status: string;
     total_price: number;
+    address: string;
+    order_status: string;
+    order_stage: string;
     items: Item[];
     user: OrderUserType;
+    created_at: string;
 };
 
 type Props = {
@@ -33,6 +40,8 @@ type Props = {
 
 export default function OrderList({ orders }: Props) {
     const userRole = useAppSelector((state: RootState) => state.authReducer.user?.role);
+    const dispatch = useAppDispatch();
+    const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>({});
 
     if (!orders || orders.length === 0) {
         return (
@@ -43,6 +52,30 @@ export default function OrderList({ orders }: Props) {
             </Box>
         );
     }
+
+    const handleStageChange = async (order_id: string, stage: ORDER_STAGE) => {
+        try {
+            setLoadingMap((prev) => ({ ...prev, [order_id]: true }));
+
+            await dispatch(updateOrderStage({ order_id, stage })).unwrap();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoadingMap((prev) => ({ ...prev, [order_id]: false }));
+        }
+    };
+
+    const handleStatusChange = async (order_id: string, status: ORDER_STATUS) => {
+        try {
+            setLoadingMap((prev) => ({ ...prev, [order_id]: true }));
+
+            await dispatch(updateOrderStatus({ order_id, status })).unwrap();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoadingMap((prev) => ({ ...prev, [order_id]: false }));
+        }
+    };
 
     return (
         <Box className={styles.container}>
@@ -63,6 +96,42 @@ export default function OrderList({ orders }: Props) {
                                 ₹{order.total_price}
                             </Typography>
                         </Box>
+                        {
+                            userRole === RoleEnum.SELLER
+                            &&
+                            order.order_status == ORDER_STATUS.INPROCESS
+                            &&
+                            <>
+                                <Button
+                                    disabled={loadingMap[order.uuid]}
+                                    onClick={() => handleStatusChange(order.uuid, ORDER_STATUS.ACCEPTED)}
+                                >
+                                    {loadingMap[order.uuid] ? "Please wait..." : "Accept Order"}
+                                </Button>
+
+                                <Button
+                                    disabled={loadingMap[order.uuid]}
+                                    onClick={() => handleStatusChange(order.uuid, ORDER_STATUS.REJECTED)}
+                                >
+                                    {loadingMap[order.uuid] ? "Please wait..." : "Reject Order"}
+                                </Button>
+                            </>
+                        }
+                        {
+                            order.order_status == ORDER_STATUS.ACCEPTED
+                            &&
+                            <OrderStepper
+                                stage={order.order_stage as ORDER_STAGE}
+                                role={userRole as RoleEnum}
+                                onChange={(nextStage) => handleStageChange(order.uuid, nextStage)}
+                                loading={loadingMap[order.uuid]}
+                            />
+                        }
+                        {
+                            order.order_status == ORDER_STATUS.REJECTED
+                            &&
+                            'Rejected order'
+                        }
                         {
                             userRole === RoleEnum.SELLER && (
                                 <>{order.user.email}{order.user.username}</>

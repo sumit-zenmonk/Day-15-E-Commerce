@@ -3,6 +3,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryG
 import { ProductEntity } from "./product.entity";
 import { CartEntity } from "./cart.entity";
 import { OrderEntity } from "./order.entity";
+import { UserAddressEntity } from "./user.address.entity";
 
 @Entity('users')
 export class UserEntity {
@@ -36,6 +37,9 @@ export class UserEntity {
 
     @OneToMany(() => OrderEntity, order => order.user)
     orders: OrderEntity[];
+
+    @OneToMany(() => UserAddressEntity, address => address.user, { eager: true })
+    addresses: UserAddressEntity[];
 
     @CreateDateColumn()
     created_at: Date;

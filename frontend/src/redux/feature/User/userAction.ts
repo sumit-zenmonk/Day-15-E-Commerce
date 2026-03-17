@@ -186,3 +186,38 @@ export const fetchOrder = createAsyncThunk<
         }
     }
 );
+
+export const createAddress = createAsyncThunk<
+    any,
+    any,
+    { state: RootState }
+>(
+    "auth/createAddress",
+    async (payload, { getState, rejectWithValue }) => {
+        try {
+            const token = getState().authReducer.token || "";
+
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/customer/address`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token,
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                return rejectWithValue(data.message || "Failed to create address");
+            }
+
+            return data;
+        } catch (err: any) {
+            return rejectWithValue(err.message);
+        }
+    }
+);

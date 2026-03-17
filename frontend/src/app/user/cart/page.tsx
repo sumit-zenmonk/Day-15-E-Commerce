@@ -4,32 +4,36 @@ import { Box, Typography, Button, IconButton, Modal, TextField } from "@mui/mate
 import { RootState } from "@/redux/store";
 import styles from "./cart.module.css";
 import { CartItemType } from "@/redux/feature/User/userType";
-import { createOrder, removeFromCart, updateCart } from "@/redux/feature/User/userAction";
+import { createOrder, removeFromCart, updateCart, createAddress } from "@/redux/feature/User/userAction";
 import { enqueueSnackbar } from "notistack";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { useForm } from "react-hook-form";
+import { formatAddress } from "@/utils/format_address";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { orderAddressSchema, OrderAddressSchemaType, orderSchema, OrderSchemaType } from "@/types/order";
+import { addressSchema, addressSchemaType } from "@/types/address.form";
 
 export default function CartPage() {
     const dispatch = useAppDispatch();
     const { cart, loading } = useAppSelector(
         (state: RootState) => state.UserCommerceReducer
     );
+    const addresses = useAppSelector(
+        (state: RootState) => state.authReducer.user?.address
+    );
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors }
-    } = useForm<OrderAddressSchemaType>({
-        resolver: zodResolver(orderAddressSchema),
+        reset,
+        formState: { errors },
+    } = useForm<addressSchemaType>({
+        resolver: zodResolver(addressSchema),
     });
-
     const [isMounted, setIsMounted] = useState(false);
     const [open, setOpen] = useState(false);
-    const address = watch("address");
+    const [selectedAddress, setSelectedAddress] = useState<string>("");
+    const [showNewForm, setShowNewForm] = useState(false);
 
     const totalAmount = cart.reduce(
         (acc: number, item: any) => acc + item.product.price * item.quantity,
@@ -58,14 +62,51 @@ export default function CartPage() {
         }
     };
 
-    const onSubmit = async (data: OrderAddressSchemaType) => {
+    const handleCreateAddress = async (data: any) => {
         try {
+            const res = await dispatch(
+                createAddress({ ...data, is_default: false })
+            ).unwrap();
+
+            setSelectedAddress(res.uuid);
+            setShowNewForm(false);
+            reset();
+
+            enqueueSnackbar("Address added", { variant: "success" });
+        } catch (err: any) {
+            enqueueSnackbar(err || "Failed", { variant: "error" });
+        }
+    };
+
+    useEffect(() => {
+        if (!showNewForm) {
+            const def = addresses?.find((a: any) => a.is_default);
+            if (def) setSelectedAddress(def.uuid);
+        } else {
+            setSelectedAddress("");
+        }
+    }, [showNewForm, addresses]);
+
+    const handleOrder = async () => {
+        try {
+            if (showNewForm) {
+                enqueueSnackbar("Please save the new address before placing order", { variant: "warning" });
+                return;
+            }
+
+            const selected = addresses?.find((a: any) => a.uuid === selectedAddress);
+            if (!selected) {
+                enqueueSnackbar("Select address", { variant: "warning" });
+                return;
+            }
+
+            const formattedAddress = formatAddress(selected);
             const cart_ids = cart.map((item) => item.uuid);
 
             await dispatch(
                 createOrder({
                     cart_ids,
-                    address: data.address,
+                    address: formattedAddress,
                     total_price: totalAmount,
                 })
             ).unwrap();
@@ -92,130 +133,75 @@ export default function CartPage() {
             <Box className={styles.cartWrapper}>
                 {cart.map((item: CartItemType) => (
                     <Box key={item.uuid} className={styles.cartCard}>
-                        <img
-                            src={item.product.product_img}
-                            className={styles.productImg}
-                        />
+                        <img src={item.product.product_img} className={styles.productImg} />
 
                         <Box className={styles.productInfo}>
-                            <Typography className={styles.productName}>
-                                {item.product.product_name}
-                            </Typography>
-
-                            <Typography className={styles.productQty}>
-                                Quantity: {item.quantity}
-                            </Typography>
-
-                            <Typography className={styles.productPrice}>
-                                ${item.product.price * item.quantity}
-                            </Typography>
+                            <Typography>{item.product.product_name}</Typography>
+                            <Typography>Qty: {item.quantity}</Typography>
+                            <Typography>${item.product.price * item.quantity}</Typography>
                         </Box>
 
-                        <Box className={styles.deleteBtn}>
-                            <IconButton
-                                onClick={() => handleDelete(item.uuid)}
-                                disabled={loading}
-                                color="error"
-                            >
-                                <DeleteOutlineIcon />
-                            </IconButton>
-                        </Box>
+                        <IconButton onClick={() => handleDelete(item.uuid)} color="error">
+                            <DeleteOutlineIcon />
+                        </IconButton>
 
-                        <Box className={styles.quantityWrapper}>
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                onClick={() =>
-                                    handleQuantityChange(
-                                        item.uuid,
-                                        item.product_id,
-                                        item.quantity - 1
-                                    )
-                                }
-                                disabled={item.quantity <= 1}
-                            >
-                                -
-                            </Button>
-
-                            <Typography>{item.quantity}</Typography>
-
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                onClick={() =>
-                                    handleQuantityChange(
-                                        item.uuid,
-                                        item.product_id,
-                                        item.quantity + 1
-                                    )
-                                }
-                            >
-                                +
-                            </Button>
+                        <Box>
+                            <Button onClick={() => handleQuantityChange(item.uuid, item.product_id, item.quantity - 1)} disabled={item.quantity <= 1}>-</Button>
+                            {item.quantity}
+                            <Button onClick={() => handleQuantityChange(item.uuid, item.product_id, item.quantity + 1)}>+</Button>
                         </Box>
                     </Box>
                 ))}
 
-                <Box className={styles.summaryBox}>
-                    <Typography className={styles.totalText}>
-                        Total: ${totalAmount}
-                    </Typography>
+                <Typography>Total: ${totalAmount}</Typography>
+
+                <Button disabled={!cart.length} onClick={() => setOpen(true)}>
+                    Checkout
+                </Button>
+            </Box>
+
+            <Modal open={open} onClose={() => setOpen(false)}>
+                <Box className={styles.modalBox}>
+                    <Typography variant="h6">Select Address</Typography>
+
+                    <Button onClick={() => setShowNewForm(!showNewForm)}>
+                        {!showNewForm ? "Add New Address" : "Choose"}
+                    </Button>
+
+                    {!showNewForm && addresses?.map((addr: any) => (
+                        <Box key={addr.uuid} className={styles.modalAddressOption}>
+                            <input
+                                type="radio"
+                                checked={selectedAddress === addr.uuid}
+                                onChange={() => setSelectedAddress(addr.uuid)}
+                            />
+                            <span>{formatAddress(addr)}</span>
+                        </Box>
+                    ))}
+
+                    {showNewForm && (
+                        <form onSubmit={handleSubmit(handleCreateAddress)} className={styles.modalForm}>
+                            <TextField label="Street" {...register("street_address")} fullWidth />
+                            <TextField label="Apartment" {...register("apartment_suite")} fullWidth />
+                            <TextField label="City" {...register("city")} fullWidth />
+                            <TextField label="State" {...register("state_province")} fullWidth />
+                            <TextField label="Postal Code" {...register("postal_code")} fullWidth />
+                            <TextField label="Country" {...register("country")} fullWidth />
+
+                            <Button type="submit" variant="contained">
+                                Save Address
+                            </Button>
+                        </form>
+                    )}
 
                     <Button
-                        variant="outlined"
+                        variant="contained"
+                        fullWidth
                         className={styles.buyBtn}
-                        disabled={cart.length === 0}
-                        onClick={() => setOpen(true)}
+                        onClick={handleOrder}
                     >
-                        Checkout
+                        Place Order
                     </Button>
-                </Box>
-            </Box>
-            <Modal open={open} onClose={() => setOpen(false)}>
-                <Box
-                    sx={{
-                        width: "40%",
-                        backgroundColor: "white",
-                        padding: "3%",
-                        margin: "8% auto",
-                        borderRadius: "8px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "10px"
-                    }}
-                >
-                    <Typography variant="h6">Checkout</Typography>
-
-                    <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "12px",
-                            width: "100%"
-                        }}
-                    >
-                        <TextField
-                            label="Shipping Address"
-                            fullWidth
-                            {...register("address")}
-                            error={!!errors.address}
-                            helperText={errors.address?.message}
-                        />
-
-                        <Typography>
-                            Total: ${totalAmount}
-                        </Typography>
-
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            disabled={loading}
-                            sx={{ width: "100%" }}
-                        >
-                            Place Order
-                        </Button>
-                    </form>
                 </Box>
             </Modal>
         </Box>

@@ -8,6 +8,7 @@ import type { Request } from "express";
 import { CartUpdateDto } from "./dto/cart.update.dto";
 import { CartDeleteDto } from "./dto/cart.delete.dto copy";
 import { CreateOrderDto } from "./dto/order.create.dto";
+import { CreateAddressDto } from "./dto/address.create.dto";
 
 @UseGuards(RolesGuard)
 @Roles(Role.USER)
@@ -80,4 +81,16 @@ export class CustomerController {
             throw error;
         }
     }
+
+    @Post('/address')
+    async CreateAddress(@Body() body: CreateAddressDto, @Req() req: Request) {
+        try {
+            return await this.customerService.createAddress(body, req.user);
+        }
+        catch (error) {
+            console.error("Add to Cart Customer Error:", error);
+            throw error;
+        }
+    }
+
 }

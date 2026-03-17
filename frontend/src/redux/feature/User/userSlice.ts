@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserCommerceState } from "./userType";
-import { addToCart, createOrder, fetchCart, fetchOrder, removeFromCart, updateCart } from "./userAction";
+import { addToCart, createAddress, createOrder, fetchCart, fetchOrder, removeFromCart, updateCart } from "./userAction";
 
 const initialState: UserCommerceState = {
     cart: [],

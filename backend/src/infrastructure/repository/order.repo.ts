@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
 import { OrderEntity } from "src/entities/order.entity";
+import { ORDER_STAGE, ORDER_STATUS } from "src/enums/order";
 
 @Injectable()
 export class OrderRepository extends Repository<OrderEntity> {
@@ -97,5 +98,42 @@ export class OrderRepository extends Repository<OrderEntity> {
             skip: offset ?? Number(process.env.page_offset) ?? 0,
             take: limit ?? Number(process.env.page_limit) ?? 10
         });
+    }
+
+    async updateOrderStatus(order_id: string, status: ORDER_STATUS) {
+        return await this.update(
+            {
+                uuid: order_id,
+            },
+            {
+                order_status: status
+            }
+        )
+
+    }
+
+    async getOrder(order_id: string) {
+        return await this.findOne({
+            where: {
+                uuid: order_id
+            },
+            relations: {
+                items: {
+                    product: true
+                },
+                user: true,
+            },
+        })
+    }
+
+    async updateOrderStage(order_id: string, stage: ORDER_STAGE) {
+        return await this.update(
+            {
+                uuid: order_id,
+            },
+            {
+                order_stage: stage
+            }
+        )
     }
 }

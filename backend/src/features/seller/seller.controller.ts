@@ -7,6 +7,8 @@ import { ProductDeleteDto } from "./dto/product.delete.dto";
 import { Roles } from "src/infrastructure/guard/role/role.decorator";
 import { RolesGuard } from "src/infrastructure/guard/role/role.guard";
 import { Role } from "src/enums/user";
+import { OrderUpdateStatusDto } from "./dto/order.status.update.dto";
+import { OrderUpdateStageDto } from "./dto/order.stage.update.dto";
 
 @UseGuards(RolesGuard)
 @Roles(Role.SELLER)
@@ -37,5 +39,15 @@ export class SellerController {
     @Get('/order')
     async getOrders(@Req() req: Request, @Query('offset') offset?: number, @Query('limit') limit?: number) {
         return this.sellerService.getOrders(req.user, offset, limit);
+    }
+
+    @Patch('/order/status')
+    async updateOrderStatus(@Body() body: OrderUpdateStatusDto) {
+        return this.sellerService.updateOrderStatus(body);
+    }
+
+    @Patch('/order/stage')
+    async updateOrderStage(@Body() body: OrderUpdateStageDto) {
+        return this.sellerService.updateOrderStage(body);
     }
 }

@@ -139,3 +139,71 @@ export const fetchSellerOrder = createAsyncThunk<
         }
     }
 );
+
+export const updateOrderStatus = createAsyncThunk<
+    { message: string },
+    { order_id: string, status: string },
+    { state: RootState }
+>(
+    "sellerProducts/updateOrderStatus",
+    async (payload, { getState, rejectWithValue }) => {
+        try {
+            const token = getState().authReducer.token || "";
+
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/seller/order/status`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${token}`,
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                return rejectWithValue(data.message || "Failed to update product");
+            }
+            return data;
+        } catch (err: any) {
+            return rejectWithValue(err.message);
+        }
+    }
+);
+
+export const updateOrderStage = createAsyncThunk<
+    { message: string },
+    { order_id: string, stage: string },
+    { state: RootState }
+>(
+    "sellerProducts/updateOrderStage",
+    async (payload, { getState, rejectWithValue }) => {
+        try {
+            const token = getState().authReducer.token || "";
+
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/seller/order/stage`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${token}`,
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                return rejectWithValue(data.message || "Failed to update product");
+            }
+            return data;
+        } catch (err: any) {
+            return rejectWithValue(err.message);
+        }
+    }
+);

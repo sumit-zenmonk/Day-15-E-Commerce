@@ -5,6 +5,9 @@ import { UserEntity } from "src/entities/user.entity";
 import { ProductUpdateDto } from "./dto/product.update.dto";
 import { ProductDeleteDto } from "./dto/product.delete.dto";
 import { OrderRepository } from "src/infrastructure/repository/order.repo";
+import { OrderUpdateStatusDto } from "./dto/order.status.update.dto";
+import { OrderUpdateStageDto } from "./dto/order.stage.update.dto";
+import { ORDER_STATUS } from "src/enums/order";
 
 @Injectable()
 export class SellerService {
@@ -82,6 +85,54 @@ export class SellerService {
         }
         catch (error) {
             console.error("Get Seller Order Listing Error:", error);
+            throw error;
+        }
+    }
+    async updateOrderStatus(body: OrderUpdateStatusDto) {
+        try {
+            const { order_id, status } = body;
+            const order = await this.orderRepo.getOrder(order_id);
+
+            if (!order || order.order_status === status) {
+                throw new BadRequestException("This Order status not acceptable");
+            }
+
+            if (status === "ACCEPTED") {
+                for (const item of order.items) {
+                    const product = item.product;
+                    if (!product) continue;
+                    if (product.stock_quantity < item.quantity) {
+                        throw new BadRequestException(
+                            `Insufficient stock for product ${product.product_name}`
+                        );
+                    }
+
+                    product.stock_quantity -= item.quantity;
+                    await this.productRepo.save(product);
+                }
+            }
+            await this.orderRepo.updateOrderStatus(order_id, status);
+
+            return { message: "Order Status Updated Success" };
+        } catch (error) {
+            console.error("Order Status Error:", error);
+            throw error;
+        }
+    }
+
+    async updateOrderStage(body: OrderUpdateStageDto) {
+        try {
+            const { order_id, stage } = body;
+            const isExists = await this.orderRepo.getOrder(order_id);
+
+            if (!isExists || isExists.order_stage == stage || isExists.order_status == ORDER_STATUS.REJECTED) {
+                throw new BadRequestException("This Order stage not acceptable");
+            }
+
+            await this.orderRepo.updateOrderStage(order_id, stage);
+            return { message: "Order Stage Updated Success" };
+        } catch (error) {
+            console.error("Order Stage Error:", error);
             throw error;
         }
     }

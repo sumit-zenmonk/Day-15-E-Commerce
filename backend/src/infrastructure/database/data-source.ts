@@ -7,6 +7,7 @@ import { ProductEntity } from "src/entities/product.entity";
 import { CartEntity } from "src/entities/cart.entity";
 import { OrderEntity } from "src/entities/order.entity";
 import { OrderItemEntity } from "src/entities/order.item.entity";
+import { UserAddressEntity } from "src/entities/user.address.entity";
 
 const options: DataSourceOptions = {
     type: 'postgres',
@@ -14,8 +15,8 @@ const options: DataSourceOptions = {
     port: 5432, //5433
     username: "postgres",
     password: "123", //sumit123
-    database: "Big-Ecommerce",
-    entities: [UserEntity, ProductEntity, CartEntity, OrderEntity, OrderItemEntity],
+    database: "ecommerce",
+    entities: [UserEntity, ProductEntity, CartEntity, OrderEntity, OrderItemEntity, UserAddressEntity],
     synchronize: false,
     migrations: ['dist/infrastructure/database/migrations/*{.ts,.js}'],
 };

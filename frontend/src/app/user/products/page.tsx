@@ -59,10 +59,17 @@ export default function UserHomePage() {
 
     const handleAddtoCart = async (id: string) => {
         try {
+            const product = products.find(p => p.uuid === id);
+            const qty = quantities[id] || 1;
+
+            if (product && qty > product.stock_quantity) {
+                enqueueSnackbar("Quantity exceeds available stock", { variant: "error" });
+                return;
+            }
             const result = await dispatch(
                 addToCart({
                     product_id: id,
-                    quantity: quantities[id] || 1,
+                    quantity: qty,
                 })
             ).unwrap();
 
@@ -72,11 +79,23 @@ export default function UserHomePage() {
         }
     };
 
-    const increaseQty = (id: string) => {
-        setQuantities((prev) => ({
-            ...prev,
-            [id]: (prev[id] || 1) + 1,
-        }));
+    const increaseQty = (id: string, stock: number) => {
+        setQuantities((prev) => {
+            const currentQty = prev[id] || 1;
+
+            if (currentQty >= stock) {
+                return prev;
+            }
+
+            if (currentQty+1 >= stock) {
+                enqueueSnackbar("Quantity exceeds available stock", { variant: "error" });
+            }
+
+            return {
+                ...prev,
+                [id]: currentQty + 1,
+            };
+        });
     };
 
     const decreaseQty = (id: string) => {
@@ -90,10 +109,6 @@ export default function UserHomePage() {
     return (
         <Box className={styles.container}>
             <Box className={styles.productContainer}>
-                {/* <Typography variant="h4" className={styles.title}>
-                    Product Listing
-                </Typography> */}
-
                 {error && (
                     <Typography color="error" className={styles.error}>
                         {error}
@@ -147,11 +162,11 @@ export default function UserHomePage() {
 
                                             <Button
                                                 variant="outlined"
-                                                onClick={() => increaseQty(product.uuid)}
+                                                onClick={() => increaseQty(product.uuid, product.stock_quantity)}
+                                                disabled={(quantities[product.uuid] || 1) >= product.stock_quantity}
                                             >
                                                 +
                                             </Button>
-
                                         </Box>
 
                                         <Button
@@ -163,7 +178,7 @@ export default function UserHomePage() {
                                             Add
                                         </Button>
                                     </Box>
-                                ) :
+                                ) : (
                                     <Button
                                         variant="contained"
                                         startIcon={<ShoppingCartCheckoutIcon />}
@@ -171,7 +186,7 @@ export default function UserHomePage() {
                                     >
                                         Active Cart Product
                                     </Button>
-                                }
+                                )}
                             </Card>
                         ))}
                     </Box>

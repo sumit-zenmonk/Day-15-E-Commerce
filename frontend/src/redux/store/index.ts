@@ -9,7 +9,7 @@ import SellerReducer from "../feature/Seller/sellerSlice";
 import UserCommerceReducer from "../feature/User/userSlice";
 
 const persistConfig = {
-    key: "rootd",
+    key: "root",
     storage,
     blacklisted: [globalProductsReducer]
 };

@@ -24,7 +24,7 @@ export default function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL("/", req.url));
     }
 
-    const protectedRoutes = [...adminRoutes, ...sellerRoutes, ...userRoutes, '/'];
+    const protectedRoutes = [...adminRoutes, ...sellerRoutes, ...userRoutes];
     if (!isAuthenticated && matchesRoute(protectedRoutes)) {
         return NextResponse.redirect(new URL("/login", req.url));
     }

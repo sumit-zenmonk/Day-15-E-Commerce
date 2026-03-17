@@ -50,10 +50,10 @@ export default function HeaderComp() {
                 />
             </Box>
 
-            <Box className="searchContainer" >
-                {/* <HomeFilledIcon fontSize='large' className='homeIcon' onClick={() => router.replace('/')} /> */}
+            {/* <Box className="searchContainer" >
+                <HomeFilledIcon fontSize='large' className='homeIcon' onClick={() => router.replace('/')} />
                 <SearchProductComp />
-            </Box>
+            </Box> */}
 
             <Box className="right-container">
                 <Button

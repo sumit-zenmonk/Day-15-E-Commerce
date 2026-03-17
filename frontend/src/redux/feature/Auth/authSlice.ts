@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import Cookies from "js-cookie"
 import { signupUser, loginUser, logoutUser } from "./authAction"
 import { AuthState } from "./authtype"
+import { createAddress } from "../User/userAction"
 
 const initialState: AuthState = {
     user: null,
@@ -20,7 +21,8 @@ const decodeToken = (token: string) => {
         uid: payload.uuid,
         email: payload.email,
         name: payload.username,
-        role: payload.role
+        role: payload.role,
+        address: payload?.address,
     }
 }
 
@@ -103,6 +105,15 @@ const authSlice = createSlice({
                 Cookies.remove("token")
                 Cookies.remove("role")
             })
+
+        .addCase(createAddress.fulfilled, (state, action) => {
+            if (state.user) {
+                if (!state.user.address) {
+                    state.user.address = [];
+                }
+                state.user.address.push(action.payload);
+            }
+        })
     }
 })
 

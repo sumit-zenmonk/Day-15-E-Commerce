@@ -11,7 +11,8 @@ export class AuthHelperService {
             uuid: userObj.uuid,
             email: userObj.email,
             username: userObj.username,
-            role: userObj.role
+            role: userObj.role,
+            address: userObj.addresses
         };
 
         return await this.jwtService.signAsync(payload);

@@ -7,13 +7,16 @@ import { CartDeleteDto } from "./dto/cart.delete.dto copy";
 import { CreateOrderDto } from "./dto/order.create.dto";
 import { OrderRepository } from "src/infrastructure/repository/order.repo";
 import { OrderItemRepository } from "src/infrastructure/repository/order.item.repo";
+import { CreateAddressDto } from "./dto/address.create.dto";
+import { UserAddressRepository } from "src/infrastructure/repository/user.address.repo";
 
 @Injectable()
 export class CustomerService {
     constructor(
         private readonly cartRepo: CartRepository,
         private readonly orderRepo: OrderRepository,
-        private readonly orderItemRepo: OrderItemRepository
+        private readonly orderItemRepo: OrderItemRepository,
+        private readonly userAddressRepo: UserAddressRepository,
     ) { }
 
     async addToCart(body: CartAddDto, user: UserEntity) {
@@ -119,6 +122,19 @@ export class CustomerService {
                 data: product,
                 message: "Order Product Listing Success"
             }
+        }
+        catch (error) {
+            console.error("Get Order Product Listing Error:", error);
+            throw error;
+        }
+    }
+
+    async createAddress(body: CreateAddressDto, user: UserEntity) {
+        try {
+            return await this.userAddressRepo.createUserAddress({
+                ...body,
+                user_uuid: user.uuid
+            });
         }
         catch (error) {
             console.error("Get Order Product Listing Error:", error);
