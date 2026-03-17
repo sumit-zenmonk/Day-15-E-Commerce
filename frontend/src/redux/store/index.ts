@@ -14,12 +14,20 @@ const persistConfig = {
     blacklisted: [globalProductsReducer]
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     authReducer: authReducer,
     globalProductsReducer: globalProductsReducer,
     SellerReducer: SellerReducer,
     UserCommerceReducer: UserCommerceReducer
 });
+
+const rootReducer = (state: any, action: any) => {
+    if (action.type.includes("auth/logout/fulfilled")) {
+        storage.removeItem("persist:root");
+        state = undefined;
+    }
+    return appReducer(state, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
