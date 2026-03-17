@@ -9,6 +9,7 @@ export interface ProductType {
     product_img: string;
     product_name: string;
     uuid: string;
+    stock_quantity: number
 }
 
 export interface CartItemType {

@@ -52,9 +52,15 @@ export default function CartPage() {
     const handleQuantityChange = async (
         cart_id: string,
         product_id: string,
-        quantity: number
+        quantity: number,
+        stock: number
     ) => {
         try {
+            if (quantity > stock) {
+                enqueueSnackbar("Quantity exceeds available stock", { variant: "error" });
+                return;
+            }
+
             await dispatch(updateCart({ cart_id, product_id, quantity })).unwrap();
             enqueueSnackbar("Cart updated", { variant: "success" });
         } catch (err: any) {
@@ -146,9 +152,9 @@ export default function CartPage() {
                         </IconButton>
 
                         <Box>
-                            <Button onClick={() => handleQuantityChange(item.uuid, item.product_id, item.quantity - 1)} disabled={item.quantity <= 1}>-</Button>
+                            <Button onClick={() => handleQuantityChange(item.uuid, item.product_id, item.quantity - 1, item.product.stock_quantity)} disabled={item.quantity <= 1}>-</Button>
                             {item.quantity}
-                            <Button onClick={() => handleQuantityChange(item.uuid, item.product_id, item.quantity + 1)}>+</Button>
+                            <Button onClick={() => handleQuantityChange(item.uuid, item.product_id, item.quantity + 1, item.product.stock_quantity)}>+</Button>
                         </Box>
                     </Box>
                 ))}
@@ -175,6 +181,7 @@ export default function CartPage() {
                                         <input
                                             type="radio"
                                             checked={selectedAddress === addr.uuid}
+                                            onChange={() => setSelectedAddress(addr.uuid)}
                                         />
                                         <span>{formatAddress(addr)}</span>
                                     </Box>

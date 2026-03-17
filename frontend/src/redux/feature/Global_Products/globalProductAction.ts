@@ -57,7 +57,6 @@ export const updateApproveProducts = createAsyncThunk<
             if (!res.ok) {
                 return rejectWithValue(data.message || "Failed to update product approval");
             }
-            console.log(data);
             return data;
         } catch (err: any) {
             return rejectWithValue(err.message);

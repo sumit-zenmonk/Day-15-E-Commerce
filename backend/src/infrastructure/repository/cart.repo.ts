@@ -53,7 +53,8 @@ export class CartRepository extends Repository<CartEntity> {
                 product: {
                     price: true,
                     product_name: true,
-                    product_img: true
+                    product_img: true,
+                    stock_quantity: true
                 }
             }
         });
@@ -80,7 +81,8 @@ export class CartRepository extends Repository<CartEntity> {
                     product_img: true,
                     price: true,
                     product_name: true,
-                    is_admin_approved: true
+                    is_admin_approved: true,
+                    stock_quantity: true
                 }
             },
             skip: offset ?? Number(process.env.page_offset) ?? 0,
