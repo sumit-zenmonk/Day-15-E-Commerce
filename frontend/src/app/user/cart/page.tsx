@@ -170,12 +170,11 @@ export default function CartPage() {
                     {!showNewForm &&
                         <Box>
                             {addresses?.map((addr: any) => (
-                                <Box key={addr.uuid} className={styles.modalAddressOption}>
+                                <Box key={addr.uuid} className={styles.modalAddressOption} onClick={() => setSelectedAddress(addr.uuid)}>
                                     <Box>
                                         <input
                                             type="radio"
                                             checked={selectedAddress === addr.uuid}
-                                            onChange={() => setSelectedAddress(addr.uuid)}
                                         />
                                         <span>{formatAddress(addr)}</span>
                                     </Box>
