@@ -36,9 +36,9 @@ export default function AdminDashboard() {
     const handleApprove = async (product_id: string, approve: boolean) => {
         try {
             dispatch(updateApproveProducts({ product_id, approve }));
-            enqueueSnackbar("Product Approved", { variant: "success" });
+            enqueueSnackbar(`Product ${approve ? "Approved" : "DisApproved"}`, { variant: "success" });
         } catch (err) {
-            enqueueSnackbar("Failed to approve", { variant: "error" });
+            enqueueSnackbar(`Failed to ${approve ? "Approved" : "DisApproved"}`, { variant: "error" });
         }
     };
 
