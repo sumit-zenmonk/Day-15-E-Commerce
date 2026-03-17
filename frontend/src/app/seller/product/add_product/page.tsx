@@ -98,19 +98,19 @@ export default function UploadProduct() {
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                     <Box className={styles.field}>
                         <InputLabel>Product Name</InputLabel>
-                        <input type="text" {...register("product_name", { required: "Required" })} className={styles.input} />
+                        <input type="text" {...register("product_name", { required: "Product name Required" })} className={styles.input} />
                         {errors.product_name && <span className={styles.error}>{errors.product_name.message}</span>}
                     </Box>
 
                     <Box className={styles.field}>
                         <InputLabel>Stock Quantity</InputLabel>
-                        <input type="number" {...register("stock_quantity", { required: "Required", min: 0 })} className={styles.input} />
+                        <input type="number" {...register("stock_quantity", { required: "Stock Quantity Required", min: 0 })} className={styles.input} />
                         {errors.stock_quantity && <span className={styles.error}>{errors.stock_quantity.message}</span>}
                     </Box>
 
                     <Box className={styles.field}>
                         <InputLabel>Price</InputLabel>
-                        <input type="number" {...register("price", { required: "Required", min: 0 })} className={styles.input} />
+                        <input type="number" {...register("price", { required: "Product price Required", min: 0 })} className={styles.input} />
                         {errors.price && <span className={styles.error}>{errors.price.message}</span>}
                     </Box>
 

@@ -30,7 +30,7 @@ type Order = {
     order_status: string;
     order_stage: string;
     items: Item[];
-    user: OrderUserType;
+    user?: OrderUserType;
     created_at: string;
 };
 
@@ -133,6 +133,7 @@ export default function OrderList({ orders }: Props) {
                             'Rejected order'
                         }
                         {
+                            order.user &&
                             userRole === RoleEnum.SELLER && (
                                 <>{order.user.email}{order.user.username}</>
                             )

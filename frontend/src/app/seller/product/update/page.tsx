@@ -132,7 +132,7 @@ export default function UpdateProductPage() {
                         <input
                             type="text"
                             {...register("product_name", {
-                                required: "Required",
+                                required: "Product name Required",
                             })}
                             className={styles.input}
                         />
@@ -148,7 +148,7 @@ export default function UpdateProductPage() {
                         <input
                             type="number"
                             {...register("stock_quantity", {
-                                required: "Required",
+                                required: "Stock Quantity Required",
                                 min: 0,
                             })}
                             className={styles.input}
@@ -165,7 +165,7 @@ export default function UpdateProductPage() {
                         <input
                             type="number"
                             {...register("price", {
-                                required: "Required",
+                                required: "Product price Required",
                                 min: 0,
                             })}
                             className={styles.input}
