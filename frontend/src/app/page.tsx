@@ -38,7 +38,7 @@ export default function HomePage() {
                 if (user?.role === RoleEnum.USER) {
                   router.push('/user/products');
                 } else {
-                  router.replace('/seller/product/products');
+                  router.push('/seller/product/products');
                 }
               }}
             >
@@ -53,7 +53,7 @@ export default function HomePage() {
               size="large"
               startIcon={<ShoppingCart />}
               onClick={() => {
-                router.replace('/admin-dashboard');
+                router.push('/admin-dashboard');
               }}
             >
               Dashbaord
