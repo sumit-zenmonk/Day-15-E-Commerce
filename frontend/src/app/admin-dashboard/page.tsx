@@ -56,55 +56,66 @@ export default function AdminDashboard() {
                     <CircularProgress />
                 </Box>
             ) : (
-                <>
-                    <Typography>
+                <Box className={styles.content}>
+                    <Typography className={styles.title}>
                         Admin Dashboard
                     </Typography>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Stock</TableCell>
-                                <TableCell>Price</TableCell>
-                                <TableCell>Approved</TableCell>
-                                <TableCell>Action</TableCell>
-                            </TableRow>
-                        </TableHead>
 
-                        <TableBody>
-                            {products.map((product) => (
-                                <TableRow key={product.uuid}>
-                                    <TableCell>{product.product_name}</TableCell>
-                                    <TableCell>{product.stock_quantity}</TableCell>
-                                    <TableCell>{product.price}</TableCell>
-                                    <TableCell>
-                                        {product.is_admin_approved}
-                                        {product.is_admin_approved ? "Yes" : "No"}
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <Button
-                                            variant="contained"
-                                            size="small"
-                                            onClick={() => handleApprove(product.uuid, !product.is_admin_approved)}
-                                        >
-                                            {!product.is_admin_approved ? "Approve" : "DisApprove"}
-                                        </Button>
-                                    </TableCell>
+                    <Box className={styles.tableWrapper}>
+                        <Table className={styles.table}>
+                            <TableHead className={styles.thead}>
+                                <TableRow className={styles.headerRow}>
+                                    <TableCell className={styles.headerCell}>Name</TableCell>
+                                    <TableCell className={styles.headerCell}>Stock</TableCell>
+                                    <TableCell className={styles.headerCell}>Price</TableCell>
+                                    <TableCell className={styles.headerCell}>Approved</TableCell>
+                                    <TableCell className={styles.headerCell}>Action</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
 
-                    <TablePagination
-                        component="div"
-                        count={100}
-                        page={page}
-                        onPageChange={(e, newPage) => setPage(newPage)}
-                        rowsPerPage={rowsPerPage}
-                        rowsPerPageOptions={[10]}
-                    />
-                </>
+                            <TableBody>
+                                {products.map((product) => (
+                                    <TableRow key={product.uuid} className={styles.row}>
+                                        <TableCell className={styles.cell}>{product.product_name}</TableCell>
+                                        <TableCell className={styles.cell}>{product.stock_quantity}</TableCell>
+                                        <TableCell className={styles.cell}>${product.price}</TableCell>
+                                        <TableCell className={styles.cell}>
+                                            {product.is_admin_approved ? "Yes" : "No"}
+                                        </TableCell>
+
+                                        <TableCell className={styles.cell}>
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                className={
+                                                    product.is_admin_approved
+                                                        ? styles.disapproveBtn
+                                                        : styles.approveBtn
+                                                }
+                                                onClick={() =>
+                                                    handleApprove(product.uuid, !product.is_admin_approved)
+                                                }
+                                            >
+                                                {!product.is_admin_approved ? "Approve" : "DisApprove"}
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Box>
+
+                    <Box className={styles.pagination}>
+                        <TablePagination
+                            component="div"
+                            count={100}
+                            page={page}
+                            onPageChange={(e, newPage) => setPage(newPage)}
+                            rowsPerPage={rowsPerPage}
+                            rowsPerPageOptions={[10]}
+                        />
+                    </Box>
+                </Box>
             )}
         </Box>
     );
