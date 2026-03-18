@@ -275,26 +275,5 @@
 }
 
 .slider img:hover {
-    /* transform: scale(1.1); */
-}
-
-.slick-dots li button:before {
-    font-size: 10px;
-    color: #2874f0;
-}
-
-.slick-dots li.slick-active button:before {
-    color: #2874f0;
-}
-
-.slick-prev,
-.slick-next {
-    display: none;
-}
-
-.slide-item {
-    text-align: center;
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
+    transform: scale(1.1);
 }

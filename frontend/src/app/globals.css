@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 * {
-  /* scrollbar-width: none; */
+  scrollbar-width: none;
   scroll-behavior: smooth;
   transition: all ease .5s;
   color: black;
@@ -12,7 +12,7 @@ body {
   height: 100vh;
   font-weight: 500;
   font-size: 1rem;
-  /* user-select: none; */
+  user-select: none;
   overflow: scroll;
   /* background: linear-gradient(160deg, #020617, #575757, #020617); */
   /* background-color: rgb(15, 15, 15); */
