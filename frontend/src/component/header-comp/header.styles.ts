@@ -30,4 +30,5 @@ export const menuButtonSx = {
     borderRadius: "500px",
     textTransform: "uppercase",
     fontWeight: 700,
+    border:"transparent"
 };

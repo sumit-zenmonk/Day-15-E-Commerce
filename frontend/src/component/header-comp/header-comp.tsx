@@ -3,6 +3,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material"
 import { logoutUser } from '@/redux/feature/Auth/authAction';
 import './header-comp.css'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchProductComp from '../search-comp/search_comp';
@@ -14,12 +16,44 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks.ts';
 import { RootState } from '@/redux/store';
 import { logoutItemSx, menuButtonSx, menuItemSx, menuPaperSx } from './header.styles';
 import { clearProducts } from '@/redux/feature/Global_Products/globalProductSlice';
+import Slider from 'react-slick';
+import Image from 'next/image';
 
 export default function HeaderComp() {
     const pathname = usePathname();
     const router = useRouter();
     const dispatch = useAppDispatch();
     const { user, error, loading, status } = useAppSelector((state: RootState) => state.authReducer);
+
+    const settings = {
+        className: "center-slider",
+        centerMode: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        speed: 600,
+        autoplay: true,
+        autoplaySpeed: 2500,
+        pauseOnHover: true,
+        arrows: false,
+        dots: true,
+        centerPadding: "0px",
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    centerMode: false
+                }
+            }
+        ]
+    };
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -43,11 +77,11 @@ export default function HeaderComp() {
         <Box className="header">
             <Box className="header-align">
                 <Box className="top-box">
-                    <Box className="top-box-right">
-                        <Box className="top-left">
+                    <Box className="top-left">
+                        <Box className="top-left-fbox">
                             Flipkart
                         </Box>
-                        <Box className="top-right">
+                        <Box className="top-left-sbox">
                             <LocalAirportIcon />
                             Travel
                         </Box>
@@ -65,11 +99,18 @@ export default function HeaderComp() {
 
                     <Box className="middle-right">
                         <Box>
-                            <AccountCircleIcon />   
+                            <AccountCircleIcon />
                             Login <KeyboardArrowDownIcon />
                         </Box>
                         <Box>
-                            More <KeyboardArrowDownIcon />
+                            <Button
+                                variant="outlined"
+                                sx={menuButtonSx}
+                                onClick={handleMenuOpen}
+                            >
+                                Menu
+                            </Button>
+                            <KeyboardArrowDownIcon />
                         </Box>
                         <Box>
                             Cart
@@ -85,14 +126,6 @@ export default function HeaderComp() {
                 </Box> */}
 
                     <Box className="right-container">
-                        <Button
-                            variant="outlined"
-                            sx={menuButtonSx}
-                            onClick={handleMenuOpen}
-                        >
-                            Menu
-                        </Button>
-
                         <Menu
                             anchorEl={anchorEl}
                             open={open}
@@ -201,6 +234,20 @@ export default function HeaderComp() {
                     </Box>
                 </Box>
             </Box>
+            <Slider {...settings} className='slider'>
+                <Box className="slide-item">
+                    <Image src="/play_store.png" width={100} height={100} alt="Play Store" />
+                </Box>
+                <Box className="slide-item">
+                    <Image src="/github.png" width={100} height={100} alt="Play Store" />
+                </Box>
+                <Box className="slide-item">
+                    <Image src="/google.png" width={100} height={100} alt="Play Store" />
+                </Box>
+                <Box className="slide-item">
+                    <Image src="/location.png" width={100} height={100} alt="Play Store" />
+                </Box>
+            </Slider>
         </Box >
     )
 }

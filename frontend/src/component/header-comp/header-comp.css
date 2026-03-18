@@ -9,9 +9,6 @@
     color: #000;
     backdrop-filter: blur(5px);
     box-sizing: border-box;
-    position: sticky;
-    top: 0;
-    z-index: 1;
 }
 
 .header-align {
@@ -20,6 +17,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 12;
 }
 
 .top-box {
@@ -39,10 +39,22 @@
     justify-content: space-around;
 }
 
-.top-box-right>div {
+.top-left-fbox,
+.top-left-sbox {
+    display: flex;
+    width: fit-content;
+    justify-content: space-around;
+    align-items: center;
+    letter-spacing: 1px;
     background-color: rgb(236, 236, 236);
-    padding: 6%;
-    border-radius: 16px;
+    padding: 8% 20%;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: .8rem;
+}
+
+.top-left-fbox {
+    background-color: #ffe51fff;
 }
 
 .top-left,
@@ -92,7 +104,7 @@
     align-items: center;
     gap: 6px;
     color: #fff;
-    font-size: 14px;
+    /* font-size: 14px; */
     font-weight: 500;
     cursor: pointer;
 }
@@ -130,7 +142,7 @@
 .down-box .MuiButton-root {
     background: transparent;
     color: #212121;
-    font-size: 14px;
+    /* font-size: 14px; */
     font-weight: 500;
     text-transform: none;
 }
@@ -194,7 +206,7 @@
 
 .option {
     color: #b3b3b3;
-    font-size: 0.85rem;
+    /* font-size: 0.85rem; */
     font-weight: 700;
     white-space: nowrap;
     cursor: pointer;
@@ -219,4 +231,65 @@
     border-radius: 500px;
     text-transform: uppercase;
     font-weight: 700;
+}
+
+.slider {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px 0;
+}
+
+.slider .slick-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.5;
+    transform: scale(0.85);
+    transition: all 0.4s ease;
+}
+
+.slider .slick-center {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.slider .slick-slide>div {
+    display: flex;
+    justify-content: center;
+}
+
+.slider img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.slider img:hover {
+    transform: scale(1.1);
+}
+
+.slick-dots li button:before {
+    font-size: 10px;
+    color: #2874f0;
+}
+
+.slick-dots li.slick-active button:before {
+    color: #2874f0;
+}
+
+.slick-prev,
+.slick-next {
+    display: none;
+}
+
+.slide-item {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
 }
