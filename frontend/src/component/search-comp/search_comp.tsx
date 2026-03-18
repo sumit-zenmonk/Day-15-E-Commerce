@@ -20,7 +20,7 @@ export default function SearchProductComp() {
             <TextField
                 fullWidth
                 // label="Search Product"
-                placeholder="Search Product"
+                placeholder="Search for Products, Brands and More"
                 // variant="outlined"
                 // value={name}
                 onKeyDown={(e) => e.key === 'Enter' && handleProductSearch()}
@@ -35,7 +35,7 @@ export default function SearchProductComp() {
                     },
                 }}
             />
-            <TravelExploreIcon />
+            {/* <TravelExploreIcon /> */}
         </Box >
     )
 }

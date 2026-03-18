@@ -4,10 +4,12 @@ import { Box, Button, Menu, MenuItem, Typography } from "@mui/material"
 import { logoutUser } from '@/redux/feature/Auth/authAction';
 import './header-comp.css'
 import { useState } from "react";
-import HomeFilledIcon from '@mui/icons-material/HomeFilled';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchProductComp from '../search-comp/search_comp';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import Image from 'next/image';
+import LocalAirportIcon from '@mui/icons-material/LocalAirport';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks.ts';
 import { RootState } from '@/redux/store';
 import { logoutItemSx, menuButtonSx, menuItemSx, menuPaperSx } from './header.styles';
@@ -39,136 +41,165 @@ export default function HeaderComp() {
 
     return (
         <Box className="header">
-            <Box className="left-container">
-                <Image
-                    src={'/flipkart.svg'}
-                    className='logo'
-                    alt='logo img'
-                    width={40}
-                    height={40}
-                    onClick={() => router.replace('/')}
-                />
-            </Box>
+            <Box className="header-align">
+                <Box className="top-box">
+                    <Box className="top-box-right">
+                        <Box className="top-left">
+                            Flipkart
+                        </Box>
+                        <Box className="top-right">
+                            <LocalAirportIcon />
+                            Travel
+                        </Box>
+                    </Box>
+                    <Box className="top-right">
+                        <LocationOnIcon />
+                        Location not set <Typography>Select delivery location <KeyboardArrowDownIcon /></Typography>
+                    </Box>
+                </Box>
 
-            {/* <Box className="searchContainer" >
+                <Box className="middle-box">
+                    <Box className="middle-left">
+                        <SearchProductComp />
+                    </Box>
+
+                    <Box className="middle-right">
+                        <Box>
+                            <AccountCircleIcon />   
+                            Login <KeyboardArrowDownIcon />
+                        </Box>
+                        <Box>
+                            More <KeyboardArrowDownIcon />
+                        </Box>
+                        <Box>
+                            Cart
+                            <ShoppingCartIcon />
+                        </Box>
+                    </Box>
+                </Box>
+
+                <Box className="down-box">
+                    {/* <Box className="searchContainer" >
                 <HomeFilledIcon fontSize='large' className='homeIcon' onClick={() => router.replace('/')} />
                 <SearchProductComp />
-            </Box> */}
+                </Box> */}
 
-            <Box className="right-container">
-                <Button
-                    variant="outlined"
-                    sx={menuButtonSx}
-                    onClick={handleMenuOpen}
-                >
-                    Menu
-                </Button>
+                    <Box className="right-container">
+                        <Button
+                            variant="outlined"
+                            sx={menuButtonSx}
+                            onClick={handleMenuOpen}
+                        >
+                            Menu
+                        </Button>
 
-                <Menu
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleMenuClose}
-                    slotProps={{
-                        paper: {
-                            sx: menuPaperSx
-                        }
-                    }}
-                >
-                    {user ? [
-                        user.role === 'SELLER' && (
-                            <MenuItem
-                                key="add"
-                                sx={menuItemSx}
-                                onClick={() => {
-                                    router.push('/seller/product/add_product');
-                                    handleMenuClose();
-                                }}
-                            >
-                                Add Product
-                            </MenuItem>
-                        ),
-                        user.role === 'SELLER' && (
-                            <MenuItem
-                                key="products"
-                                onClick={() => {
-                                    router.push('/seller/product/products');
-                                    handleMenuClose();
-                                }}
-                                sx={menuItemSx}
-                            >
-                                My Products
-                            </MenuItem>
-                        ),
-                        user.role === 'SELLER' && (
-                            <MenuItem
-                                key="order"
-                                onClick={() => {
-                                    router.push('/seller/order');
-                                    handleMenuClose();
-                                }}
-                                sx={menuItemSx}
-                            >
-                                Orders
-                            </MenuItem>
-                        ),
-                        user.role === 'USER' && (
-                            <MenuItem
-                                key="products"
-                                onClick={() => {
-                                    router.push(' /user/products');
-                                    handleMenuClose();
-                                }}
-                                sx={menuItemSx}
-                            >
-                                Products
-                            </MenuItem>
-                        ),
-                        user.role === 'USER' && (
-                            <MenuItem
-                                key="cart"
-                                onClick={() => {
-                                    router.push(' /user/cart');
-                                    handleMenuClose();
-                                }}
-                                sx={menuItemSx}
-                            >
-                                Cart
-                            </MenuItem>
-                        ),
-                        user.role === 'USER' && (
-                            <MenuItem
-                                key="order"
-                                onClick={() => {
-                                    router.push(' /user/order');
-                                    handleMenuClose();
-                                }}
-                                sx={menuItemSx}
-                            >
-                                Orders
-                            </MenuItem>
-                        ),
-                        <MenuItem
-                            key="logout"
-                            sx={logoutItemSx}
-                            onClick={async () => {
-                                await handleLogOut();
-                                handleMenuClose();
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleMenuClose}
+                            slotProps={{
+                                paper: {
+                                    sx: menuPaperSx
+                                }
                             }}
                         >
-                            Log Out
-                        </MenuItem>
-                    ] : (
-                        <MenuItem
-                            onClick={() => {
-                                router.push('/login');
-                                handleMenuClose();
-                            }}
-                            sx={menuItemSx}
-                        >
-                            Sign In
-                        </MenuItem>
-                    )}
-                </Menu>
+                            {user ? [
+                                user.role === 'SELLER' && (
+                                    <MenuItem
+                                        key="add"
+                                        sx={menuItemSx}
+                                        onClick={() => {
+                                            router.push('/seller/product/add_product');
+                                            handleMenuClose();
+                                        }}
+                                    >
+                                        Add Product
+                                    </MenuItem>
+                                ),
+                                user.role === 'SELLER' && (
+                                    <MenuItem
+                                        key="products"
+                                        onClick={() => {
+                                            router.push('/seller/product/products');
+                                            handleMenuClose();
+                                        }}
+                                        sx={menuItemSx}
+                                    >
+                                        My Products
+                                    </MenuItem>
+                                ),
+                                user.role === 'SELLER' && (
+                                    <MenuItem
+                                        key="order"
+                                        onClick={() => {
+                                            router.push('/seller/order');
+                                            handleMenuClose();
+                                        }}
+                                        sx={menuItemSx}
+                                    >
+                                        Orders
+                                    </MenuItem>
+                                ),
+                                user.role === 'USER' && (
+                                    <MenuItem
+                                        key="products"
+                                        onClick={() => {
+                                            router.push(' /user/products');
+                                            handleMenuClose();
+                                        }}
+                                        sx={menuItemSx}
+                                    >
+                                        Products
+                                    </MenuItem>
+                                ),
+                                user.role === 'USER' && (
+                                    <MenuItem
+                                        key="cart"
+                                        onClick={() => {
+                                            router.push(' /user/cart');
+                                            handleMenuClose();
+                                        }}
+                                        sx={menuItemSx}
+                                    >
+                                        Cart
+                                    </MenuItem>
+                                ),
+                                user.role === 'USER' && (
+                                    <MenuItem
+                                        key="order"
+                                        onClick={() => {
+                                            router.push(' /user/order');
+                                            handleMenuClose();
+                                        }}
+                                        sx={menuItemSx}
+                                    >
+                                        Orders
+                                    </MenuItem>
+                                ),
+                                <MenuItem
+                                    key="logout"
+                                    sx={logoutItemSx}
+                                    onClick={async () => {
+                                        await handleLogOut();
+                                        handleMenuClose();
+                                    }}
+                                >
+                                    Log Out
+                                </MenuItem>
+                            ] : (
+                                <MenuItem
+                                    onClick={() => {
+                                        router.push('/login');
+                                        handleMenuClose();
+                                    }}
+                                    sx={menuItemSx}
+                                >
+                                    Sign In
+                                </MenuItem>
+                            )}
+                        </Menu>
+                    </Box>
+                </Box>
             </Box>
         </Box >
     )

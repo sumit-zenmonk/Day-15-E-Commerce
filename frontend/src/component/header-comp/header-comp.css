@@ -1,17 +1,142 @@
 .header {
     width: 100%;
-    height: 7%;
+    /* height: 7%; */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 1.5%;
+    justify-content: center;
+    flex-direction: column;
+    padding: .5%;
     color: #000;
     backdrop-filter: blur(5px);
     box-sizing: border-box;
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 1;
-    box-shadow: 0 0 10px 1px black;
+}
+
+.header-align {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-box {
+    width: 100%;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* font-size: 13px; */
+    box-sizing: border-box;
+}
+
+.top-box-right {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.top-box-right>div {
+    background-color: rgb(236, 236, 236);
+    padding: 6%;
+    border-radius: 16px;
+}
+
+.top-left,
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.top-box .MuiTypography-root {
+    color: #0044ff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.middle-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.middle-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.middle-center {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.middle-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.middle-center .MuiTypography-root,
+.middle-right .MuiTypography-root {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.middle-box svg {
+    color: #fff;
+    font-size: 20px;
+}
+
+.middle-center .MuiTypography-root:hover,
+.middle-right .MuiTypography-root:hover {
+    opacity: 0.85;
+}
+
+.down-box {
+    top: 0;
+    right: 0;
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 10px 40px; */
+    box-sizing: border-box;
+    position: absolute;
+}
+
+.down-left,
+.down-center,
+.down-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.down-box .MuiButton-root {
+    background: transparent;
+    color: #212121;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: none;
+}
+
+.down-box .MuiButton-root:hover {
+    color: #2874f0;
 }
 
 .left-container {

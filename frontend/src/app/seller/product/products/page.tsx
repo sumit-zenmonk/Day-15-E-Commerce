@@ -35,7 +35,10 @@ export default function SellerProductsPage() {
             ).unwrap();
 
             setOffset((prev) => prev + limit);
-            if (result.length < limit) setHasMore(false);
+
+            if (result.length === 0) {
+                setHasMore(false);
+            }
         } catch (err: any) {
             enqueueSnackbar(err || "Failed to load products", { variant: "error" });
         }
@@ -74,41 +77,40 @@ export default function SellerProductsPage() {
                 dataLength={products.length}
                 next={fetchMoreProducts}
                 hasMore={hasMore}
+                className={styles.productGrid}
                 loader={<Box className={styles.loading}><CircularProgress /></Box>}
                 endMessage={<Typography className={styles.endMessage}>No more products</Typography>}
             >
-                <Box className={styles.productGrid}>
-                    {products.map((product: SellerProductType) => (
-                        <Card key={product.uuid} className={styles.card} elevation={3}>
-                            <img src={product.product_img} alt={product.product_name} className={styles.image} />
-                            <Box className={styles.info}>
-                                <Typography variant="h6">{product.product_name}</Typography>
-                                <Typography>Stock: {product.stock_quantity}</Typography>
-                                <Typography color={product.is_admin_approved ? "green" : "orange"}>
-                                    {product.is_admin_approved ? "Approved" : "Pending Approval"}
-                                </Typography>
-                                <Box className={styles.actions}>
-                                    <Button
-                                        className={styles.deleteBtn}
-                                        disabled={loading}
-                                        sx={DeleteProductSx}
-                                        onClick={() => handleDelete(product.uuid)}
-                                    >
-                                        Delete
-                                    </Button>
+                {products.map((product: SellerProductType) => (
+                    <Card key={product.uuid} className={styles.card} elevation={3}>
+                        <img src={product.product_img} alt={product.product_name} className={styles.image} />
+                        <Box className={styles.info}>
+                            <Typography variant="h6">{product.product_name}</Typography>
+                            <Typography>Stock: {product.stock_quantity}</Typography>
+                            <Typography color={product.is_admin_approved ? "green" : "orange"}>
+                                {product.is_admin_approved ? "Approved" : "Pending Approval"}
+                            </Typography>
+                            <Box className={styles.actions}>
+                                <Button
+                                    className={styles.deleteBtn}
+                                    disabled={loading}
+                                    sx={DeleteProductSx}
+                                    onClick={() => handleDelete(product.uuid)}
+                                >
+                                    Delete
+                                </Button>
 
-                                    <Button
-                                        className={styles.editBtn}
-                                        disabled={loading}
-                                        onClick={() => handleUpdate(product.uuid)}
-                                    >
-                                        Edit
-                                    </Button>
-                                </Box>
+                                <Button
+                                    className={styles.editBtn}
+                                    disabled={loading}
+                                    onClick={() => handleUpdate(product.uuid)}
+                                >
+                                    Edit
+                                </Button>
                             </Box>
-                        </Card>
-                    ))}
-                </Box>
+                        </Box>
+                    </Card>
+                ))}
             </InfiniteScroll>
         </Box>
     );

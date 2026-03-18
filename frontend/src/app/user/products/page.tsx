@@ -44,7 +44,7 @@ export default function UserHomePage() {
 
             setOffset((prev) => prev + limit);
 
-            if (result.length < limit) {
+            if (result.length === 0) {
                 setHasMore(false);
             }
         } catch (err: any) {
@@ -87,7 +87,7 @@ export default function UserHomePage() {
                 return prev;
             }
 
-            if (currentQty+1 >= stock) {
+            if (currentQty + 1 >= stock) {
                 enqueueSnackbar("Quantity exceeds available stock", { variant: "error" });
             }
 
@@ -119,6 +119,7 @@ export default function UserHomePage() {
                     dataLength={products.length}
                     next={fetchMoreProducts}
                     hasMore={hasMore}
+                    className={styles.productGrid}
                     loader={
                         <Box className={styles.loading}>
                             <CircularProgress />
@@ -130,66 +131,64 @@ export default function UserHomePage() {
                         </Typography>
                     }
                 >
-                    <Box className={styles.productGrid}>
-                        {products.map((product) => (
-                            <Card key={product.uuid} className={styles.productCard} elevation={3}>
-                                <img
-                                    src={product.product_img || "/play_store.png"}
-                                    alt={product.product_name}
-                                    className={styles.productImage}
-                                />
-                                <Box className={styles.productInfo}>
-                                    <Typography variant="h6">{product.product_name}</Typography>
-                                    <Typography>Stock: {product.stock_quantity}</Typography>
-                                    <Typography>Price: {product.price}</Typography>
-                                    <Typography>
-                                        Approved: {product.is_admin_approved ? "Yes" : "No"}
-                                    </Typography>
-                                </Box>
-                                {!cartProducts.some((prod: CartItemType) => prod.product_id === product.uuid) ? (
+                    {products.map((product) => (
+                        <Card key={product.uuid} className={styles.productCard} elevation={3}>
+                            <img
+                                src={product.product_img || "/play_store.png"}
+                                alt={product.product_name}
+                                className={styles.productImage}
+                            />
+                            <Box className={styles.productInfo}>
+                                <Typography variant="h6">{product.product_name}</Typography>
+                                <Typography>Stock: {product.stock_quantity}</Typography>
+                                <Typography>Price: {product.price}</Typography>
+                                <Typography>
+                                    Approved: {product.is_admin_approved ? "Yes" : "No"}
+                                </Typography>
+                            </Box>
+                            {!cartProducts.some((prod: CartItemType) => prod.product_id === product.uuid) ? (
+                                <Box className={styles.cartActions}>
                                     <Box className={styles.cartActions}>
-                                        <Box className={styles.cartActions}>
-                                            <Button
-                                                variant="outlined"
-                                                onClick={() => decreaseQty(product.uuid)}
-                                            >
-                                                -
-                                            </Button>
+                                        <Button
+                                            variant="outlined"
+                                            onClick={() => decreaseQty(product.uuid)}
+                                        >
+                                            -
+                                        </Button>
 
-                                            <Typography>
-                                                {quantities[product.uuid] || 1}
-                                            </Typography>
-
-                                            <Button
-                                                variant="outlined"
-                                                onClick={() => increaseQty(product.uuid, product.stock_quantity)}
-                                                disabled={(quantities[product.uuid] || 1) >= product.stock_quantity}
-                                            >
-                                                +
-                                            </Button>
-                                        </Box>
+                                        <Typography>
+                                            {quantities[product.uuid] || 1}
+                                        </Typography>
 
                                         <Button
-                                            className={styles.Addbtn}
-                                            variant="contained"
-                                            startIcon={<ShoppingCartIcon />}
-                                            onClick={() => handleAddtoCart(product.uuid)}
+                                            variant="outlined"
+                                            onClick={() => increaseQty(product.uuid, product.stock_quantity)}
+                                            disabled={(quantities[product.uuid] || 1) >= product.stock_quantity}
                                         >
-                                            Add
+                                            +
                                         </Button>
                                     </Box>
-                                ) : (
+
                                     <Button
+                                        className={styles.Addbtn}
                                         variant="contained"
-                                        startIcon={<ShoppingCartCheckoutIcon />}
-                                        onClick={() => router.push('/user/cart')}
+                                        startIcon={<ShoppingCartIcon />}
+                                        onClick={() => handleAddtoCart(product.uuid)}
                                     >
-                                        Active Cart Product
+                                        Add
                                     </Button>
-                                )}
-                            </Card>
-                        ))}
-                    </Box>
+                                </Box>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    startIcon={<ShoppingCartCheckoutIcon />}
+                                    onClick={() => router.push('/user/cart')}
+                                >
+                                    Active Cart Product
+                                </Button>
+                            )}
+                        </Card>
+                    ))}
                 </InfiniteScroll>
             </Box>
 
