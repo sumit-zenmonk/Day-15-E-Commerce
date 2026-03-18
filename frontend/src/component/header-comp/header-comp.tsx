@@ -98,9 +98,10 @@ export default function HeaderComp() {
                     </Box>
 
                     <Box className="middle-right">
-                        <Box>
+                        <Box className="middle-right-spaces">
                             <AccountCircleIcon />
-                            Login <KeyboardArrowDownIcon />
+                            Login
+                            <KeyboardArrowDownIcon />
                         </Box>
                         <Box>
                             <Button
@@ -236,16 +237,19 @@ export default function HeaderComp() {
             </Box>
             <Slider {...settings} className='slider'>
                 <Box className="slide-item">
-                    <Image src="/play_store.png" width={100} height={100} alt="Play Store" />
+                    <Image src="/poster1.avif" width={100} height={100} alt="poster" />
                 </Box>
                 <Box className="slide-item">
-                    <Image src="/github.png" width={100} height={100} alt="Play Store" />
+                    <Image src="/poster2.jpeg" width={100} height={100} alt="poster" />
                 </Box>
                 <Box className="slide-item">
-                    <Image src="/google.png" width={100} height={100} alt="Play Store" />
+                    <Image src="/poster3.jpeg" width={100} height={100} alt="poster" />
                 </Box>
                 <Box className="slide-item">
-                    <Image src="/location.png" width={100} height={100} alt="Play Store" />
+                    <Image src="/poster4.jpeg" width={100} height={100} alt="poster" />
+                </Box>
+                <Box className="slide-item">
+                    <Image src="/poster5.jpeg" width={100} height={100} alt="poster" />
                 </Box>
             </Slider>
         </Box >

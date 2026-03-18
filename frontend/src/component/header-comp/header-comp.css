@@ -98,6 +98,10 @@
     gap: 15px;
 }
 
+.middle-right-spaces {
+    gap: 10px;
+}
+
 .middle-center .MuiTypography-root,
 .middle-right .MuiTypography-root {
     display: flex;
@@ -234,16 +238,18 @@
 }
 
 .slider {
-    width: 100%;
+    width: 90%;
     margin-top: 15px;
-    padding: 10px 0;
+    padding: 10px;
+    /* background-color: rgb(250, 250, 250); */
+    border-radius: 100px;
 }
 
 .slider .slick-slide {
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.5;
+    opacity: 0.3;
     transform: scale(0.85);
     transition: all 0.4s ease;
 }
@@ -254,23 +260,22 @@
 }
 
 .slider .slick-slide>div {
-    display: flex;
-    justify-content: center;
+    margin-left: 10%;
 }
 
 .slider img {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 200px;
     object-fit: contain;
     border-radius: 12px;
     background: white;
     padding: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 4px 4px 1px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
 .slider img:hover {
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
 }
 
 .slick-dots li button:before {
