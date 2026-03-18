@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks.ts';
 import { RootState } from '@/redux/store';
 import { logoutItemSx, menuButtonSx, menuItemSx, menuPaperSx } from './header.styles';
 import { clearProducts } from '@/redux/feature/Global_Products/globalProductSlice';
+import TabComps from '../tab-comp/tab-comp';
 
 export default function HeaderComp() {
     const pathname = usePathname();
@@ -203,6 +204,7 @@ export default function HeaderComp() {
                     </Box>
                 </Box>
             </Box>
+            <TabComps />
         </Box >
     )
 }

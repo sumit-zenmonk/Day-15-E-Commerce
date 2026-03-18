@@ -1,0 +1,26 @@
+.wrapper {
+    width: 70%;
+}
+
+.tabs {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.tab {
+    display: flex;
+    justify-content: space-around;
+    text-transform: none;
+    color: #444;
+}
+
+.tab.Mui-selected {
+    font-weight: 600;
+}
+
+.indicator {
+    border-radius: 100px;
+    height: 5px;
+    background-color: #83d8ff;  
+}
