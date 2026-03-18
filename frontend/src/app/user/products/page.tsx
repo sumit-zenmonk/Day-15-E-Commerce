@@ -15,6 +15,7 @@ import { addToCart, fetchCart } from "@/redux/feature/User/userAction";
 import { CartItemType } from "@/redux/feature/User/userType";
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { useRouter } from "next/navigation";
+import SliderComp from "@/component/slider-comp/slider-comp";
 
 export default function UserHomePage() {
     const dispatch = useAppDispatch();
@@ -108,6 +109,7 @@ export default function UserHomePage() {
 
     return (
         <Box className={styles.container}>
+            <SliderComp />
             <Box className={styles.productContainer}>
                 {error && (
                     <Typography color="error" className={styles.error}>

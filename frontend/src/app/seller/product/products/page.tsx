@@ -13,6 +13,7 @@ import { ProductType } from "@/redux/feature/Global_Products/globalProductType";
 import { DeleteProductSx } from "./products.styles";
 import { filterProducts } from "@/redux/feature/Global_Products/globalProductSlice";
 import { useRouter } from "next/navigation";
+import SliderComp from "@/component/slider-comp/slider-comp";
 
 export default function SellerProductsPage() {
     const dispatch = useAppDispatch();
@@ -72,6 +73,7 @@ export default function SellerProductsPage() {
             {/* <Typography variant="h4" className={styles.title}>
                 Your Product Listing
             </Typography> */}
+            <SliderComp />
 
             <InfiniteScroll
                 dataLength={products.length}

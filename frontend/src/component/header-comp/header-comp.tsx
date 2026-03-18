@@ -3,8 +3,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material"
 import { logoutUser } from '@/redux/feature/Auth/authAction';
 import './header-comp.css'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchProductComp from '../search-comp/search_comp';
@@ -16,8 +14,6 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks.ts';
 import { RootState } from '@/redux/store';
 import { logoutItemSx, menuButtonSx, menuItemSx, menuPaperSx } from './header.styles';
 import { clearProducts } from '@/redux/feature/Global_Products/globalProductSlice';
-import Slider from 'react-slick';
-import Image from 'next/image';
 
 export default function HeaderComp() {
     const pathname = usePathname();
@@ -25,35 +21,7 @@ export default function HeaderComp() {
     const dispatch = useAppDispatch();
     const { user, error, loading, status } = useAppSelector((state: RootState) => state.authReducer);
 
-    const settings = {
-        className: "center-slider",
-        centerMode: true,
-        infinite: true,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        speed: 600,
-        autoplay: true,
-        autoplaySpeed: 2500,
-        pauseOnHover: true,
-        arrows: false,
-        dots: true,
-        centerPadding: "0px",
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    centerMode: false
-                }
-            }
-        ]
-    };
+
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -235,23 +203,6 @@ export default function HeaderComp() {
                     </Box>
                 </Box>
             </Box>
-            <Slider {...settings} className='slider'>
-                <Box className="slide-item">
-                    <Image src="/poster1.avif" width={100} height={100} alt="poster" />
-                </Box>
-                <Box className="slide-item">
-                    <Image src="/poster2.jpeg" width={100} height={100} alt="poster" />
-                </Box>
-                <Box className="slide-item">
-                    <Image src="/poster3.jpeg" width={100} height={100} alt="poster" />
-                </Box>
-                <Box className="slide-item">
-                    <Image src="/poster4.jpeg" width={100} height={100} alt="poster" />
-                </Box>
-                <Box className="slide-item">
-                    <Image src="/poster5.jpeg" width={100} height={100} alt="poster" />
-                </Box>
-            </Slider>
         </Box >
     )
 }
