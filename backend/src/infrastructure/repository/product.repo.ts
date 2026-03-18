@@ -44,6 +44,7 @@ export class ProductRepository extends Repository<ProductEntity> {
                 stock_quantity: true,
                 is_admin_approved: true,
                 created_at: true,
+                price:true
             },
             skip: offset ?? Number(process.env.page_offset) ?? 0,
             take: limit ?? Number(process.env.page_limit) ?? 10

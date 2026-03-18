@@ -4,6 +4,7 @@ export interface SellerProductType {
     stock_quantity: number;
     product_img: string;
     is_admin_approved: boolean;
+    price:number;
     created_at: string;
 }
 
