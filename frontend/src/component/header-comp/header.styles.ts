@@ -1,6 +1,6 @@
 export const menuPaperSx = {
     width: "180px",
-    // backgroundColor: "rgb(29, 29, 29)",
+    backgroundColor: "transparent",
     color: "rgba(255, 255, 255, 0.98)",
     fontWeight: 900,
     borderRadius: "20px",
@@ -13,7 +13,7 @@ export const menuItemSx = {
     borderRadius: "20px",
     color: "rgba(0, 89, 255, 0.98)",
     "&:hover": {
-        border: "2px solid white",
+        border: "2px solid rgba(0, 153, 255, 0.98)",
     },
 };
 
@@ -25,7 +25,7 @@ export const logoutItemSx = {
 export const menuButtonSx = {
     minWidth: "80px",
     padding: "8px 16px",
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     color: "#000",
     borderRadius: "500px",
     textTransform: "uppercase",
