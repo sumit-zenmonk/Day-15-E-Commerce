@@ -97,17 +97,17 @@ export class SellerService {
                 throw new BadRequestException("This Order status not acceptable");
             }
 
-            if (status === "ACCEPTED") {
+            if (status === "REJECTED") {
                 for (const item of order.items) {
                     const product = item.product;
                     if (!product) continue;
-                    if (product.stock_quantity < item.quantity) {
-                        throw new BadRequestException(
-                            `Insufficient stock for product ${product.product_name}`
-                        );
-                    }
+                    // if (product.stock_quantity < item.quantity) {
+                    //     throw new BadRequestException(
+                    //         `Insufficient stock for product ${product.product_name}`
+                    //     );
+                    // }
 
-                    product.stock_quantity -= item.quantity;
+                    product.stock_quantity += item.quantity;
                     await this.productRepo.save(product);
                 }
             }

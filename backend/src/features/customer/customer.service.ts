@@ -9,6 +9,12 @@ import { OrderRepository } from "src/infrastructure/repository/order.repo";
 import { OrderItemRepository } from "src/infrastructure/repository/order.item.repo";
 import { CreateAddressDto } from "./dto/address.create.dto";
 import { UserAddressRepository } from "src/infrastructure/repository/user.address.repo";
+import { In } from "typeorm";
+import { CartEntity } from "src/entities/cart.entity";
+import { OrderEntity } from "src/entities/order.entity";
+import { ProductEntity } from "src/entities/product.entity";
+import { OrderItemEntity } from "src/entities/order.item.entity";
+import { dataSource } from "src/infrastructure/database/data-source";
 
 @Injectable()
 export class CustomerService {
@@ -82,37 +88,80 @@ export class CustomerService {
     }
 
     async createOrder(body: CreateOrderDto, user: UserEntity) {
-        try {
+        return await dataSource.manager.transaction(async (manager) => {
             const { cart_ids, address, total_price } = body;
 
-            const carts = await this.cartRepo.getCartsByIds(cart_ids, user.uuid);
+            // get all carts
+            const carts = await manager.find(CartEntity, {
+                where: {
+                    uuid: In(cart_ids),
+                    user_uuid: user.uuid,
+                    is_active: true
+                },
+                relations: { product: true }
+            });
+
             if (!carts.length) {
                 throw new BadRequestException("Cart items not found");
             }
 
-            const order = await this.orderRepo.createOrder(
-                user.uuid,
+            // lock products
+            const productIds = carts.map(c => c.product_id);
+
+            const products = await manager
+                .createQueryBuilder(ProductEntity, "product")
+                .where("product.uuid IN (:...ids)", { ids: productIds })
+                .setLock("pessimistic_write")
+                .getMany();
+
+            // check stock
+            for (const cart of carts) {
+                const product = products.find(p => p.uuid === cart.product_id);
+
+                if (!product || product.stock_quantity < cart.quantity) {
+                    throw new BadRequestException("Insufficient stock");
+                }
+            }
+
+            // deduct stock
+            for (const cart of carts) {
+                await manager.decrement(
+                    ProductEntity,
+                    { uuid: cart.product_id },
+                    "stock_quantity",
+                    cart.quantity
+                );
+            }
+
+            // create order
+            const order = await manager.save(OrderEntity, {
+                user_uuid: user.uuid,
                 address,
                 total_price
-            );
+            });
 
+            // order items
             const orderItems = carts.map(cart => ({
                 order_id: order.uuid,
                 product_id: cart.product_id,
                 quantity: cart.quantity,
                 price: cart.product.price
             }));
-            await this.orderItemRepo.createOrderItems(orderItems);
-            await this.cartRepo.deactivateCarts(cart_ids, user.uuid);
+
+            await manager.save(OrderItemEntity, orderItems);
+
+            // deactivate cart
+            await manager.update(
+                CartEntity,
+                { uuid: In(cart_ids), user_uuid: user.uuid },
+                { is_active: false }
+            );
 
             return {
                 message: "Order Created Successfully",
                 order_id: order.uuid
             };
-        } catch (error) {
-            console.error("Create Order Error:", error);
-            throw error;
-        }
+        });
     }
 
     async getOrders(user: UserEntity, offset?: number, limit?: number) {
