@@ -9,12 +9,11 @@ import { OrderRepository } from "src/infrastructure/repository/order.repo";
 import { OrderItemRepository } from "src/infrastructure/repository/order.item.repo";
 import { CreateAddressDto } from "./dto/address.create.dto";
 import { UserAddressRepository } from "src/infrastructure/repository/user.address.repo";
-import { In } from "typeorm";
+import { DataSource, In } from "typeorm";
 import { CartEntity } from "src/entities/cart.entity";
 import { OrderEntity } from "src/entities/order.entity";
 import { ProductEntity } from "src/entities/product.entity";
 import { OrderItemEntity } from "src/entities/order.item.entity";
-import { dataSource } from "src/infrastructure/database/data-source";
 
 @Injectable()
 export class CustomerService {
@@ -23,6 +22,7 @@ export class CustomerService {
         private readonly orderRepo: OrderRepository,
         private readonly orderItemRepo: OrderItemRepository,
         private readonly userAddressRepo: UserAddressRepository,
+        private readonly dataSource: DataSource,
     ) { }
 
     async addToCart(body: CartAddDto, user: UserEntity) {
@@ -88,7 +88,7 @@ export class CustomerService {
     }
 
     async createOrder(body: CreateOrderDto, user: UserEntity) {
-        return await dataSource.manager.transaction(async (manager) => {
+        return await this.dataSource.transaction(async (manager) => {
             const { cart_ids, address, total_price } = body;
 
             // get all carts
@@ -111,7 +111,7 @@ export class CustomerService {
             const products = await manager
                 .createQueryBuilder(ProductEntity, "product")
                 .where("product.uuid IN (:...ids)", { ids: productIds })
-                .setLock("pessimistic_write")
+                .setLock("pessimistic_write_or_fail")
                 .getMany();
 
             // check stock
