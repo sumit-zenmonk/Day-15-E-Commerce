@@ -1,5 +1,6 @@
 .search_box {
-    width: 100%;
+    width: 98%;
+    height: 50px;
     display: flex;
     color: rgb(167, 167, 167);
     justify-content: space-between;
