@@ -15,6 +15,7 @@ import { RootState } from '@/redux/store';
 import { logoutItemSx, menuButtonSx, menuItemSx, menuPaperSx } from './header.styles';
 import { clearProducts } from '@/redux/feature/Global_Products/globalProductSlice';
 import TabComps from '../tab-comp/tab-comp';
+import Image from 'next/image';
 
 export default function HeaderComp() {
     const pathname = usePathname();
@@ -48,10 +49,12 @@ export default function HeaderComp() {
                 <Box className="top-box">
                     <Box className="top-left">
                         <Box className="top-left-fbox">
+                            <Image src="/logo.webp" width={100} height={100} alt="poster" />
                             Flipkart
                         </Box>
                         <Box className="top-left-sbox">
-                            <LocalAirportIcon />
+                            {/* <LocalAirportIcon /> */}
+                            <Image src="/aeroplane.webp" width={100} height={100} alt="poster" />
                             Travel
                         </Box>
                     </Box>
